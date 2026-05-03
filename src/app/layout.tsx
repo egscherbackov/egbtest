@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Nunito_Sans, Geist } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
@@ -14,12 +14,23 @@ const nunitoSans = Nunito_Sans({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#060b14",
+};
+
 export const metadata: Metadata = {
   title: "EGORBUYER.COM",
   description: "Скоро...",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
   ),
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+  },
 };
 
 export default function RootLayout({
@@ -29,9 +40,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru" className={cn("font-sans", geist.variable)}>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
+      <head />
       <body className={nunitoSans.className}>
         <LoadingScreen />
         {children}
