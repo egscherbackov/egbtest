@@ -96,7 +96,7 @@ export default function InstructionPage() {
     <>
       <Header user={user} />
       <main
-        className="pt-14 flex flex-col h-screen overflow-hidden"
+        className="pt-14 flex flex-col min-h-screen overflow-y-auto"
         style={{ background: "#000000" }}
       >
         <div className="flex-1 flex flex-col md:min-h-0 max-w-2xl mx-auto w-full px-4 sm:px-6 py-8 pb-24 md:pb-8">
