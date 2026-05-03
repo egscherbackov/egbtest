@@ -471,12 +471,15 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  flex: 1;
+  justify-content: center;
 }
 .pn-right-slot {
   display: flex;
   align-items: center;
-  margin-left: auto;
+  justify-content: center;
   height: 100%;
+  flex: 0 0 auto;
 }
 .pn-li { display: flex; height: 100%; }
 .pn-pill {
