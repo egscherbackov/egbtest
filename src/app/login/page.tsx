@@ -95,14 +95,14 @@ function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#000000" }}>
       <div className="w-full max-w-sm">
-        <Link href="/" className="flex justify-center mb-8 hover:opacity-80 transition-opacity">
+        <Link href="/" className="flex justify-center mb-8 hover:opacity-80 transition-opacity duration-150">
           <Logo size="md" inverted />
         </Link>
 
         <div className="rounded-2xl p-8"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)" }}>
-          <h1 className="font-display text-center mb-2"
-            style={{ fontSize: "28px", fontWeight: 500, letterSpacing: "-0.5px", color: "white" }}>
+          <h1 className="text-center mb-2"
+            style={{ fontSize: "28px", fontWeight: 500, letterSpacing: "-0.5px", color: "white", fontFamily: "var(--font-nunito-sans), sans-serif" }}>
             Вход
           </h1>
           <p className="text-center text-sm mb-6" style={{ color: "rgba(255,255,255,0.45)" }}>
@@ -151,7 +151,7 @@ function LoginForm() {
           <div className="mt-6 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
             <p className="text-center text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
               Нет кода?{" "}
-              <a href="https://t.me/egor6p" target="_blank" rel="noopener noreferrer"
+              <a href="https://t.me/egorbuyer" target="_blank" rel="noopener noreferrer"
                 className="font-medium hover:opacity-80" style={{ color: "var(--color-cofounder-blue)" }}>
                 Написать администратору
               </a>

@@ -83,11 +83,11 @@ export default function HomeHero({ user, totalOrders }: HomeHeroProps) {
         </div>
 
         {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-2">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-2 w-full sm:w-auto">
           {user ? (
             <Link
               href="/instructions"
-              className="px-6 py-3 text-sm font-semibold transition-all hover:brightness-110 active:scale-95"
+              className="px-6 py-3 text-sm font-semibold transition-all hover:brightness-110 active:scale-95 w-full sm:w-auto text-center"
               style={{
                 background: "linear-gradient(135deg, #0081c0, #41a1cf)",
                 color: "white",
@@ -100,7 +100,7 @@ export default function HomeHero({ user, totalOrders }: HomeHeroProps) {
           ) : (
             <Link
               href="/login"
-              className="px-6 py-3 text-sm font-semibold transition-all hover:brightness-110 active:scale-95"
+              className="px-6 py-3 text-sm font-semibold transition-all hover:brightness-110 active:scale-95 w-full sm:w-auto text-center"
               style={{
                 background: "linear-gradient(135deg, #0081c0, #41a1cf)",
                 color: "white",
@@ -115,7 +115,7 @@ export default function HomeHero({ user, totalOrders }: HomeHeroProps) {
             href="https://t.me/egorbuyercom"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 text-sm font-semibold transition-all hover:bg-white active:scale-95"
+            className="px-6 py-3 text-sm font-semibold transition-all hover:bg-white active:scale-95 w-full sm:w-auto text-center"
             style={{
               background: "rgba(255,255,255,0.92)",
               border: "1px solid rgba(255,255,255,0.85)",

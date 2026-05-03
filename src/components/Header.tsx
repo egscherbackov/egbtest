@@ -16,8 +16,8 @@ const dropdownVariants = {
 
 const mobileVariants = {
   hidden:  { opacity: 0, height: 0 },
-  visible: { opacity: 1, height: "auto", transition: { duration: 0.22, ease: "easeOut" as const } },
-  exit:    { opacity: 0, height: 0,      transition: { duration: 0.16, ease: "easeIn"  as const } },
+  visible: { opacity: 1, height: "auto", transition: { duration: 0.15, ease: "easeOut" as const } },
+  exit:    { opacity: 0, height: 0,      transition: { duration: 0.12, ease: "easeIn"  as const } },
 };
 
 interface HeaderProps {
@@ -98,6 +98,9 @@ export default function Header({ user, isAdmin }: HeaderProps) {
 
       {/* Floating pill row */}
       <div className="flex justify-center pt-3 px-4 sm:px-6">
+        <Link href="/" className="flex justify-center mb-8 hover:opacity-80 transition-opacity duration-150">
+          <Logo size="md" inverted />
+        </Link>
         {/* Wrapper: auto-width on desktop, full-width on mobile */}
         <div ref={dropdownRef} className="relative pointer-events-auto w-full md:w-auto flex items-center justify-center">
           <PillNav
