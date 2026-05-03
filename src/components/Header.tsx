@@ -86,7 +86,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
       suffix: <ChevronDown size={10} style={{ marginLeft: 1 }} />,
       onClick: () => setMenuOpen((v) => !v),
     },
-  ] : maintenanceState.maintenance && maintenanceState.accessMode === "global" ? [] : [
+  ] : maintenanceState.maintenance && (maintenanceState.accessMode === "global" || maintenanceState.accessMode === "authorized") ? [] : [
     { label: "Войти", href: "/login" },
   ];
 
