@@ -36,6 +36,14 @@ function validateContact(value: string): string | null {
   return null;
 }
 
+function validateName(value: string): string | null {
+  const v = value.trim();
+  if (!v) return "Введите имя";
+  if (v.length < 2) return "Минимум 2 символа";
+  if (v.length > 15) return "Максимум 15 символов";
+  return null;
+}
+
 export default function InvitePage() {
   const params = useParams();
   const token = params.token as string;
@@ -43,6 +51,7 @@ export default function InvitePage() {
 
   const [valid, setValid] = useState<boolean | null>(null);
   const [name, setName] = useState("");
+  const [nameError, setNameError] = useState<string | null>(null);
   const [contact, setContact] = useState("");
   const [contactError, setContactError] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
@@ -50,6 +59,7 @@ export default function InvitePage() {
 
   const [registered, setRegistered] = useState<{ name: string; loginCode: string } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -107,9 +117,10 @@ export default function InvitePage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const nameErr = validateName(name);
+    if (nameErr) { setNameError(nameErr); return; }
     const err = validateContact(contact);
     if (err) { setContactError(err); return; }
-    if (!name.trim()) return;
     setLoading(true);
     try {
       // Normalise: if detected as Telegram and missing @, add it
@@ -125,6 +136,7 @@ export default function InvitePage() {
         toast.error(data.error || "Ошибка");
       } else {
         setRegistered({ name: data.user.name, loginCode: data.user.loginCode });
+        setShowSuccess(true);
       }
     } catch {
       toast.error("Ошибка соединения");
@@ -170,15 +182,15 @@ export default function InvitePage() {
       <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#000000" }}>
         <div className="w-full max-w-sm">
           <div className="flex justify-center mb-8">
-            <Logo size="md" inverted />
+            <Logo size="lg" inverted />
           </div>
-          <div className="rounded-2xl p-8 text-center"
+          <div className="rounded-2xl p-8 text-center animate-fadeIn"
             style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)" }}>
-            <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+            <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${showSuccess ? 'animate-checkBounce' : ''}`}
               style={{ background: "rgba(65,161,207,0.15)" }}>
-              <Check size={28} style={{ color: "var(--color-cofounder-blue)" }} />
+              <Check size={32} style={{ color: "var(--color-cofounder-blue)" }} />
             </div>
-            <h1 className="font-display mb-1" style={{ fontSize: "22px", fontWeight: 600, color: "white" }}>
+            <h1 className="mb-1" style={{ fontSize: "22px", fontWeight: 600, color: "white" }}>
               Аккаунт создан!
             </h1>
             <p className="text-sm mb-6" style={{ color: "rgba(255,255,255,0.55)" }}>
@@ -218,7 +230,7 @@ export default function InvitePage() {
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#000000" }}>
       <div className="w-full max-w-sm">
         <Link href="/" className="flex justify-center mb-8 hover:opacity-80 transition-opacity">
-          <Logo size="md" inverted />
+          <Logo size="lg" inverted />
         </Link>
 
         <div className="rounded-2xl p-8"
@@ -236,11 +248,17 @@ export default function InvitePage() {
               <label className="block text-sm font-medium mb-1.5" style={{ color: "rgba(255,255,255,0.75)" }}>
                 Имя
               </label>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                placeholder="Ваше имя" required
-                className="w-full px-4 py-3 text-sm transition-all outline-none" style={inputStyle}
-                onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(65,161,207,0.5)"; }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"; }} />
+              <input type="text" value={name} onChange={(e) => { setName(e.target.value); if (nameError) setNameError(validateName(e.target.value)); }}
+                placeholder="Ваше имя" required maxLength={15}
+                className="w-full px-4 py-3 text-sm transition-all outline-none"
+                style={{ ...inputStyle, borderColor: nameError ? "#ef4444" : "rgba(255,255,255,0.12)" }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = nameError ? "#ef4444" : "rgba(65,161,207,0.5)"; }}
+                onBlur={(e) => {
+                  const err = validateName(e.target.value);
+                  setNameError(err);
+                  e.currentTarget.style.borderColor = err ? "#ef4444" : "rgba(255,255,255,0.12)";
+                }} />
+              {nameError && <p className="text-xs mt-1" style={{ color: "#ef4444" }}>{nameError}</p>}
             </div>
             <div>
               <label className="block text-sm font-medium mb-1.5" style={{ color: "rgba(255,255,255,0.75)" }}>
@@ -302,7 +320,7 @@ export default function InvitePage() {
               </span>
             </label>
 
-            <button type="submit" disabled={loading || !name.trim() || !contact.trim() || !confirmed}
+            <button type="submit" disabled={loading || !name.trim() || !contact.trim() || !confirmed || !!nameError || !!contactError}
               className="w-full py-3 text-base font-medium transition-all hover:brightness-110 disabled:opacity-50"
               style={{ background: "linear-gradient(135deg, #0081c0, #41a1cf)", color: "white", borderRadius: "10px", boxShadow: "0 10px 24px rgba(0,0,0,0.35)" }}>
               {loading ? "Создаём аккаунт..." : "Создать аккаунт"}
