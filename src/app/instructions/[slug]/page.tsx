@@ -149,15 +149,41 @@ export default function InstructionPage() {
             }}
           >
             {step.imageUrl && (
-              <div
-                className="w-full aspect-video shrink-0 flex items-center justify-center"
-                style={{ background: "rgba(255,255,255,0.08)" }}
-              >
-                <img
-                  src={step.imageUrl}
-                  alt={step.imageAlt || step.title}
-                  className="w-full h-full object-contain"
-                />
+              <div className="w-full shrink-0 flex items-center justify-center py-6" style={{ background: "rgba(255,255,255,0.08)" }}>
+                <div
+                  className="relative"
+                  style={{
+                    width: "280px",
+                    height: "560px",
+                    background: "#1a1a1a",
+                    borderRadius: "48px",
+                    padding: "12px",
+                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+                  }}
+                >
+                  {/* iPhone frame */}
+                  <div
+                    className="relative w-full h-full rounded-[38px] overflow-hidden"
+                    style={{ background: "#000" }}
+                  >
+                    {/* Dynamic Island */}
+                    <div
+                      className="absolute top-3 left-1/2 transform -translate-x-1/2 z-10"
+                      style={{
+                        width: "120px",
+                        height: "32px",
+                        background: "#000",
+                        borderRadius: "20px",
+                      }}
+                    />
+                    {/* Image */}
+                    <img
+                      src={step.imageUrl}
+                      alt={step.imageAlt || step.title}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
               </div>
             )}
             <div className="p-6 sm:p-8 md:overflow-y-auto">
