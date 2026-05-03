@@ -72,8 +72,8 @@ function LoginForm() {
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-center z-50"
         style={{ background: "var(--color-night-sky)" }}>
-        <div className="mb-8 opacity-70">
-          <Logo size="md" />
+        <div className="mb-8 opacity-95">
+          <Logo size="md" inverted />
         </div>
         <div className="text-center px-6">
           {typedText.split("\n").map((line, i) => (
