@@ -14,15 +14,15 @@ const sessionOptions = {
 
 type MaintenanceState = {
   maintenance: boolean;
-  accessMode: "global" | "authorized";
+  accessMode: "global" | "authorized" | "guest";
 };
 
-// In-process maintenance cache (10s TTL)
+// In-process maintenance cache (2s TTL)
 const _mc: MaintenanceState & { t: number } = { maintenance: false, accessMode: "global", t: 0 };
 
 async function getMaintenanceState(origin: string): Promise<MaintenanceState> {
   const now = Date.now();
-  if (now - _mc.t < 10_000) return { maintenance: _mc.maintenance, accessMode: _mc.accessMode };
+  if (now - _mc.t < 2_000) return { maintenance: _mc.maintenance, accessMode: _mc.accessMode };
   try {
     const r = await fetch(`${origin}/api/maintenance-check`, {
       headers: { "x-middleware-internal": "1" },
@@ -30,7 +30,7 @@ async function getMaintenanceState(origin: string): Promise<MaintenanceState> {
     if (r.ok) {
       const d = await r.json();
       _mc.maintenance = !!d.maintenance;
-      _mc.accessMode = d.accessMode === "authorized" ? "authorized" : "global";
+      _mc.accessMode = d.accessMode || "global";
       _mc.t = now;
     }
   } catch { /* keep stale value */ }

@@ -60,6 +60,8 @@ export default function Header({ user, isAdmin }: HeaderProps) {
       }
     }
     fetchMaintenance();
+    const interval = setInterval(fetchMaintenance, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   async function handleLogout() {
