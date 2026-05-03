@@ -43,7 +43,7 @@ export default function MaintenanceView({ text }: { text: string }) {
       </h2>
       <div className="relative z-20 mb-4">
         <ShinyText
-          text="Совсем скоро"
+          text={text || "Совсем скоро"}
           speed={3}
           delay={0}
           color="rgba(255,255,255,0.6)"
