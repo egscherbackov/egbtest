@@ -9,10 +9,10 @@ import { Copy, Check, ArrowRight } from "lucide-react";
 import { LoaderOne } from "@/components/ui/loader";
 
 const inputStyle = {
-  background: "var(--color-ash-gray)",
-  border: "1px solid var(--color-steel-gray)",
-  borderRadius: "8px",
-  color: "var(--color-dark-charcoal)",
+  background: "rgba(255,255,255,0.06)",
+  border: "1px solid rgba(255,255,255,0.12)",
+  borderRadius: "10px",
+  color: "rgba(255,255,255,0.88)",
 };
 
 function isTelegram(value: string): boolean {
@@ -135,7 +135,7 @@ export default function InvitePage() {
 
   if (valid === null) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--color-ash-gray)" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#000000" }}>
         <LoaderOne size="lg" style={{ color: "var(--color-action-azure)" }} />
       </div>
     );
@@ -143,21 +143,21 @@ export default function InvitePage() {
 
   if (!valid) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "var(--color-ash-gray)" }}>
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#000000" }}>
         <div className="text-center rounded-2xl p-10 max-w-sm w-full"
-          style={{ background: "var(--color-canvas-white)", boxShadow: "var(--shadow-subtle-2)", border: "1px solid var(--color-steel-gray)" }}>
+          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)" }}>
           <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
-            style={{ background: "rgba(239,68,68,0.1)" }}>
+            style={{ background: "rgba(239,68,68,0.15)" }}>
             <span className="text-2xl">⚠</span>
           </div>
-          <h1 className="font-display mb-3" style={{ fontSize: "22px", fontWeight: 600, color: "var(--color-dark-charcoal)" }}>
+          <h1 className="font-display mb-3" style={{ fontSize: "22px", fontWeight: 600, color: "white" }}>
             Ссылка недействительна
           </h1>
-          <p className="text-sm mb-6" style={{ color: "var(--color-medium-gray)" }}>
+          <p className="text-sm mb-6" style={{ color: "rgba(255,255,255,0.55)" }}>
             Эта ссылка уже была использована или отключена.
           </p>
           <Link href="/" className="inline-block px-5 py-2.5 text-sm font-medium hover:opacity-90"
-            style={{ background: "var(--color-night-sky)", color: "white", borderRadius: "8px" }}>
+            style={{ background: "linear-gradient(135deg, #0081c0, #41a1cf)", color: "white", borderRadius: "10px" }}>
             На главную
           </Link>
         </div>
@@ -167,34 +167,34 @@ export default function InvitePage() {
 
   if (registered) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "var(--color-ash-gray)" }}>
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#000000" }}>
         <div className="w-full max-w-sm">
           <div className="flex justify-center mb-8">
-            <Logo size="md" />
+            <Logo size="md" inverted />
           </div>
           <div className="rounded-2xl p-8 text-center"
-            style={{ background: "var(--color-canvas-white)", boxShadow: "var(--shadow-subtle-2)", border: "1px solid var(--color-steel-gray)" }}>
+            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)" }}>
             <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
-              style={{ background: "rgba(65,161,207,0.12)" }}>
+              style={{ background: "rgba(65,161,207,0.15)" }}>
               <Check size={28} style={{ color: "var(--color-cofounder-blue)" }} />
             </div>
-            <h1 className="font-display mb-1" style={{ fontSize: "22px", fontWeight: 600, color: "var(--color-dark-charcoal)" }}>
+            <h1 className="font-display mb-1" style={{ fontSize: "22px", fontWeight: 600, color: "white" }}>
               Аккаунт создан!
             </h1>
-            <p className="text-sm mb-6" style={{ color: "var(--color-medium-gray)" }}>
-              Добро пожаловать, <strong style={{ color: "var(--color-dark-charcoal)" }}>{registered.name}</strong>!
+            <p className="text-sm mb-6" style={{ color: "rgba(255,255,255,0.55)" }}>
+              Добро пожаловать, <strong style={{ color: "white" }}>{registered.name}</strong>!
             </p>
 
-            <div className="rounded-xl p-4 mb-2" style={{ background: "var(--color-ash-gray)", border: "1px solid var(--color-steel-gray)" }}>
-              <p className="text-xs font-semibold mb-2" style={{ color: "var(--color-medium-gray)" }}>
+            <div className="rounded-xl p-4 mb-2" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
+              <p className="text-xs font-semibold mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>
                 Ваш код для входа
               </p>
-              <p className="text-2xl font-mono font-bold tracking-widest mb-3" style={{ color: "var(--color-dark-charcoal)" }}>
+              <p className="text-2xl font-mono font-bold tracking-widest mb-3" style={{ color: "white" }}>
                 {registered.loginCode}
               </p>
               <button onClick={copyCode}
                 className="flex items-center gap-2 mx-auto px-4 py-2 text-sm font-semibold rounded-lg transition-all hover:opacity-90"
-                style={{ background: copied ? "rgba(34,197,94,0.12)" : "rgba(65,161,207,0.12)", color: copied ? "#16a34a" : "var(--color-cofounder-blue)" }}>
+                style={{ background: copied ? "rgba(34,197,94,0.15)" : "rgba(65,161,207,0.15)", color: copied ? "#22c55e" : "var(--color-cofounder-blue)" }}>
                 {copied ? <><Check size={14} /> Скопировано!</> : <><Copy size={14} /> Скопировать код</>}
               </button>
             </div>
@@ -203,8 +203,8 @@ export default function InvitePage() {
             </p>
 
             <button onClick={() => router.push("/instructions")}
-              className="w-full flex items-center justify-center gap-2 py-3 text-sm font-semibold hover:opacity-90 transition-all"
-              style={{ background: "var(--color-night-sky)", color: "white", borderRadius: "8px" }}>
+              className="w-full flex items-center justify-center gap-2 py-3 text-sm font-semibold hover:brightness-110 transition-all"
+              style={{ background: "linear-gradient(135deg, #0081c0, #41a1cf)", color: "white", borderRadius: "10px" }}>
               Перейти к инструкциям
               <ArrowRight size={16} />
             </button>
@@ -215,46 +215,46 @@ export default function InvitePage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "var(--color-ash-gray)" }}>
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#000000" }}>
       <div className="w-full max-w-sm">
         <Link href="/" className="flex justify-center mb-8 hover:opacity-80 transition-opacity">
-          <Logo size="md" />
+          <Logo size="md" inverted />
         </Link>
 
         <div className="rounded-2xl p-8"
-          style={{ background: "var(--color-canvas-white)", boxShadow: "var(--shadow-subtle-2)", border: "1px solid var(--color-steel-gray)" }}>
+          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)" }}>
           <h1 className="font-display text-center mb-2"
-            style={{ fontSize: "26px", fontWeight: 500, letterSpacing: "-0.4px", color: "var(--color-dark-charcoal)" }}>
+            style={{ fontSize: "26px", fontWeight: 500, letterSpacing: "-0.4px", color: "white" }}>
             Активация аккаунта
           </h1>
-          <p className="text-center text-sm mb-8" style={{ color: "var(--color-medium-gray)" }}>
+          <p className="text-center text-sm mb-8" style={{ color: "rgba(255,255,255,0.55)" }}>
             Заполните данные для регистрации
           </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--color-charcoal)" }}>
+              <label className="block text-sm font-medium mb-1.5" style={{ color: "rgba(255,255,255,0.75)" }}>
                 Имя
               </label>
               <input type="text" value={name} onChange={(e) => setName(e.target.value)}
                 placeholder="Ваше имя" required
                 className="w-full px-4 py-3 text-sm transition-all outline-none" style={inputStyle}
-                onFocus={(e) => { e.currentTarget.style.borderColor = "var(--color-action-azure)"; }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = "var(--color-steel-gray)"; }} />
+                onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(65,161,207,0.5)"; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"; }} />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--color-charcoal)" }}>
+              <label className="block text-sm font-medium mb-1.5" style={{ color: "rgba(255,255,255,0.75)" }}>
                 Телефон или Telegram
               </label>
               <input type="text" value={contact} onChange={(e) => handleContactChange(e.target.value)}
                 placeholder="+7 999 123 45 67 или @username" required
                 className="w-full px-4 py-3 text-sm transition-all outline-none"
-                style={{ ...inputStyle, borderColor: contactError ? "#ef4444" : "var(--color-steel-gray)" }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = contactError ? "#ef4444" : "var(--color-action-azure)"; }}
+                style={{ ...inputStyle, borderColor: contactError ? "#ef4444" : "rgba(255,255,255,0.12)" }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = contactError ? "#ef4444" : "rgba(65,161,207,0.5)"; }}
                 onBlur={(e) => {
                   const err = validateContact(e.target.value);
                   setContactError(err);
-                  e.currentTarget.style.borderColor = err ? "#ef4444" : "var(--color-steel-gray)";
+                  e.currentTarget.style.borderColor = err ? "#ef4444" : "rgba(255,255,255,0.12)";
                 }} />
               <div className="mt-1.5 flex items-center justify-between">
                 {contactError
@@ -276,13 +276,13 @@ export default function InvitePage() {
             {/* Confirmation checkbox */}
             <label
               className="flex items-start gap-3 cursor-pointer select-none mt-1"
-              style={{ color: "var(--color-charcoal)" }}
+              style={{ color: "rgba(255,255,255,0.75)" }}
             >
               <span
                 className="mt-0.5 shrink-0 w-5 h-5 rounded flex items-center justify-center transition-all"
                 style={{
-                  border: confirmed ? "none" : "1.5px solid var(--color-steel-gray)",
-                  background: confirmed ? "var(--color-cofounder-blue)" : "var(--color-ash-gray)",
+                  border: confirmed ? "none" : "1.5px solid rgba(255,255,255,0.2)",
+                  background: confirmed ? "var(--color-cofounder-blue)" : "rgba(255,255,255,0.06)",
                 }}
               >
                 {confirmed && (
@@ -303,8 +303,8 @@ export default function InvitePage() {
             </label>
 
             <button type="submit" disabled={loading || !name.trim() || !contact.trim() || !confirmed}
-              className="w-full py-3 text-base font-medium transition-all hover:opacity-90 disabled:opacity-50"
-              style={{ background: "var(--color-night-sky)", color: "white", borderRadius: "8px" }}>
+              className="w-full py-3 text-base font-medium transition-all hover:brightness-110 disabled:opacity-50"
+              style={{ background: "linear-gradient(135deg, #0081c0, #41a1cf)", color: "white", borderRadius: "10px", boxShadow: "0 10px 24px rgba(0,0,0,0.35)" }}>
               {loading ? "Создаём аккаунт..." : "Создать аккаунт"}
             </button>
           </form>
