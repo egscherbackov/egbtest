@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/session";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ShinyText from "@/components/ui/ShinyText";
 
 export default async function OtzyvyPage() {
   const session = await getSession();
@@ -21,7 +22,16 @@ export default async function OtzyvyPage() {
             className="w-48 h-48 md:w-64 md:h-64 mb-6 rounded-lg"
             loading="lazy"
           />
-          <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "18px" }}>В разработке...</p>
+          <ShinyText
+            text="В разработке..."
+            speed={3}
+            delay={0}
+            color="rgba(255,255,255,0.6)"
+            shineColor="#ffffff"
+            spread={120}
+            direction="left"
+            className="text-xl"
+          />
         </div>
       </main>
       <Footer />
