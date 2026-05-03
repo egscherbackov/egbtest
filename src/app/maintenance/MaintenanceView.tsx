@@ -1,6 +1,7 @@
 "use client";
 
 import { BackgroundLines } from "@/components/ui/background-lines";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import Link from "next/link";
 
 export default function MaintenanceView({ text }: { text: string }) {
@@ -23,12 +24,12 @@ export default function MaintenanceView({ text }: { text: string }) {
         EGORBUYER.COM
       </h2>
       {text && (
-        <p
-          className="mx-auto text-neutral-400 text-center relative z-20 px-4"
-          style={{ fontSize: "clamp(0.85rem, 1.6vw, 1.25rem)", maxWidth: "clamp(280px, 55vw, 640px)", lineHeight: 1.65 }}
+        <div
+          className="mx-auto text-center relative z-20 px-4"
+          style={{ maxWidth: "clamp(280px, 55vw, 640px)" }}
         >
-          {text}
-        </p>
+          <TextGenerateEffect words={text} className="text-neutral-400" style={{ fontSize: "clamp(0.85rem, 1.6vw, 1.25rem)", lineHeight: 1.65 }} />
+        </div>
       )}
     </BackgroundLines>
   );
