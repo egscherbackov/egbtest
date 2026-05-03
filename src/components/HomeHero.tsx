@@ -41,8 +41,12 @@ export default function HomeHero({ user, totalOrders }: HomeHeroProps) {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to bottom, #000000 0%, transparent 20%, transparent 70%, #000000 100%)",
+            "linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0.72) 18%, rgba(0,0,0,0.58) 52%, rgba(0,0,0,0.78) 82%, #000000 100%)",
         }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "rgba(0,0,0,0.32)" }}
       />
 
       {/* Content */}
@@ -50,8 +54,13 @@ export default function HomeHero({ user, totalOrders }: HomeHeroProps) {
         <Logo size="xl" inverted />
 
         <p
-          className="text-white/60"
-          style={{ fontSize: "clamp(15px,2.5vw,18px)", fontWeight: 500, lineHeight: 1.6 }}
+          className="text-white"
+          style={{
+            fontSize: "clamp(15px,2.5vw,18px)",
+            fontWeight: 600,
+            lineHeight: 1.6,
+            textShadow: "0 2px 18px rgba(0,0,0,0.85)",
+          }}
         >
           Профессиональный байинг сервис.<br className="hidden sm:block" />
           Покупаем товары с Amazon, eBay, Taobao и других зарубежных маркетплейсов.
@@ -65,7 +74,10 @@ export default function HomeHero({ user, totalOrders }: HomeHeroProps) {
           >
             <CountUp from={0} to={totalOrders} separator=" " duration={2.5} />
           </div>
-          <p className="text-white/45 text-sm font-medium tracking-widest uppercase">
+          <p
+            className="text-white text-sm font-semibold tracking-widest uppercase"
+            style={{ textShadow: "0 2px 14px rgba(0,0,0,0.85)" }}
+          >
             заказов выполнено
           </p>
         </div>
@@ -75,26 +87,42 @@ export default function HomeHero({ user, totalOrders }: HomeHeroProps) {
           {user ? (
             <Link
               href="/instructions"
-              className="px-6 py-3 text-sm font-semibold transition-all hover:opacity-90 active:scale-95"
-              style={{ background: "var(--color-cofounder-blue)", color: "white", borderRadius: "8px" }}
+              className="px-6 py-3 text-sm font-semibold transition-all hover:brightness-110 active:scale-95"
+              style={{
+                background: "linear-gradient(135deg, #0081c0, #41a1cf)",
+                color: "white",
+                borderRadius: "10px",
+                boxShadow: "0 14px 30px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.12) inset",
+              }}
             >
               Личный кабинет
             </Link>
           ) : (
             <Link
               href="/login"
-              className="px-6 py-3 text-sm font-semibold transition-all hover:opacity-90 active:scale-95"
-              style={{ background: "var(--color-cofounder-blue)", color: "white", borderRadius: "8px" }}
+              className="px-6 py-3 text-sm font-semibold transition-all hover:brightness-110 active:scale-95"
+              style={{
+                background: "linear-gradient(135deg, #0081c0, #41a1cf)",
+                color: "white",
+                borderRadius: "10px",
+                boxShadow: "0 14px 30px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.12) inset",
+              }}
             >
               Войти в аккаунт
             </Link>
           )}
           <a
-            href="https://t.me/egor6p"
+            href="https://t.me/egorbuyercom"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 text-sm font-semibold transition-all hover:bg-white/10 active:scale-95"
-            style={{ border: "1px solid rgba(65,161,207,0.5)", color: "var(--color-action-azure)", borderRadius: "8px" }}
+            className="px-6 py-3 text-sm font-semibold transition-all hover:bg-white active:scale-95"
+            style={{
+              background: "rgba(255,255,255,0.92)",
+              border: "1px solid rgba(255,255,255,0.85)",
+              color: "#063a55",
+              borderRadius: "10px",
+              boxShadow: "0 14px 30px rgba(0,0,0,0.28)",
+            }}
           >
             Написать в Telegram
           </a>
