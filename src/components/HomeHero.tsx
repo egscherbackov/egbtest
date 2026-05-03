@@ -16,7 +16,7 @@ export default function HomeHero({ user, totalOrders }: HomeHeroProps) {
   return (
     <section
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
-      style={{ background: "#060b14" }}
+      style={{ background: "#000000" }}
     >
       {/* Prism WebGL background */}
       <div className="absolute inset-0">
@@ -41,7 +41,7 @@ export default function HomeHero({ user, totalOrders }: HomeHeroProps) {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to bottom, #060b14 0%, transparent 20%, transparent 70%, #060b14 100%)",
+            "linear-gradient(to bottom, #000000 0%, transparent 20%, transparent 70%, #000000 100%)",
         }}
       />
 

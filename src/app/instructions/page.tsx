@@ -46,7 +46,7 @@ export default async function DashboardPage() {
   return (
     <>
       <Header user={user} />
-      <main className="min-h-screen pt-14" style={{ background: "#060b14" }}>
+      <main className="min-h-screen pt-14" style={{ background: "#000000" }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
 
           {/* ── Profile card ── */}

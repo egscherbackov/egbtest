@@ -20,12 +20,12 @@ export default async function HomePage() {
     <>
       <Header user={user} isAdmin={isAdmin} />
 
-      <main style={{ background: "#060b14" }}>
+      <main style={{ background: "#000000" }}>
         {/* Hero with Prism WebGL */}
         <HomeHero user={user} totalOrders={totalOrders} />
 
         {/* Services Section */}
-        <section id="services" className="py-24 px-4 sm:px-6" style={{ background: "#060b14" }}>
+        <section id="services" className="py-24 px-4 sm:px-6" style={{ background: "#000000" }}>
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
               <h2
@@ -121,7 +121,7 @@ export default async function HomePage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-24 px-4 sm:px-6" style={{ background: "#060b14" }}>
+        <section className="py-24 px-4 sm:px-6" style={{ background: "#000000" }}>
           <div className="max-w-3xl mx-auto text-center">
             <div
               className="rounded-3xl p-12"
@@ -179,7 +179,7 @@ export default async function HomePage() {
         <footer
           className="py-8 px-4 sm:px-6"
           style={{
-            background: "#060b14",
+            background: "#000000",
             borderTop: "1px solid rgba(255,255,255,0.08)",
           }}
         >

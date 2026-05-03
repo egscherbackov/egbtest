@@ -360,8 +360,8 @@ body {
   }
   html {
     @apply font-sans;
-    background: #060b14;
-    background-color: #060b14;
+    background: #000000;
+    background-color: #000000;
   }
   button, [role="button"] {
     cursor: pointer;
@@ -415,7 +415,7 @@ body {
 }
 
 html, body {
-  background-color: #060b14;
+  background-color: #000000;
   overscroll-behavior: none;
 }
 

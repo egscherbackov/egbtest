@@ -93,7 +93,7 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#060b14" }}>
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#000000" }}>
       <div className="w-full max-w-sm">
         <Link href="/" className="flex justify-center mb-8 hover:opacity-80 transition-opacity">
           <Logo size="md" inverted />

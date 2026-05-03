@@ -21,7 +21,7 @@ export default function LoadingScreen() {
   return (
     <div
       className="animate-loading-screen fixed inset-0 z-[9999] flex flex-col items-center justify-center"
-      style={{ background: "#060b14" }}
+      style={{ background: "#000000" }}
     >
       <div className="flex flex-col items-center gap-8">
         <div className="animate-loading-text" style={{ opacity: 0 }}>

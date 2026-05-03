@@ -72,7 +72,7 @@ export default function InstructionPage() {
 
   if (loading || !category) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#060b14" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#000000" }}>
         <LoaderOne size="lg" style={{ color: "var(--color-action-azure)" }} />
       </div>
     );
@@ -87,7 +87,7 @@ export default function InstructionPage() {
       <Header user={user} />
       <main
         className="pt-14 flex flex-col md:h-screen md:overflow-hidden"
-        style={{ background: "#060b14" }}
+        style={{ background: "#000000" }}
       >
         <div className="flex-1 flex flex-col md:min-h-0 max-w-2xl mx-auto w-full px-4 sm:px-6 py-8">
 
