@@ -1,4 +1,4 @@
-# EGORBUYER.COM
+
 
 Premium buying service web application built with Next.js 15, TypeScript, Tailwind CSS v4, Prisma ORM, and SQLite.
 
