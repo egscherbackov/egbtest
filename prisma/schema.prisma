@@ -83,11 +83,12 @@ model InstructionCategory {
 }
 
 model SiteSettings {
-  id              String   @id @default("1")
-  maintenanceMode Boolean  @default(false)
-  maintenanceText String   @default("Сайт временно недоступен. Мы скоро вернёмся.")
-  totalOrders     Int      @default(1394)
-  updatedAt       DateTime @updatedAt
+  id                    String   @id @default("1")
+  maintenanceMode       Boolean  @default(false)
+  maintenanceAccessMode String   @default("global")
+  maintenanceText       String   @default("Сайт временно недоступен. Мы скоро вернёмся.")
+  totalOrders           Int      @default(1394)
+  updatedAt             DateTime @updatedAt
 }
 
 model ShortLink {

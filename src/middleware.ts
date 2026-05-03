@@ -12,23 +12,29 @@ const sessionOptions = {
   },
 };
 
-// In-process maintenance cache (10s TTL)
-const _mc: { v: boolean; t: number } = { v: false, t: 0 };
+type MaintenanceState = {
+  maintenance: boolean;
+  accessMode: "global" | "authorized";
+};
 
-async function isMaintenanceOn(origin: string): Promise<boolean> {
+// In-process maintenance cache (10s TTL)
+const _mc: MaintenanceState & { t: number } = { maintenance: false, accessMode: "global", t: 0 };
+
+async function getMaintenanceState(origin: string): Promise<MaintenanceState> {
   const now = Date.now();
-  if (now - _mc.t < 10_000) return _mc.v;
+  if (now - _mc.t < 10_000) return { maintenance: _mc.maintenance, accessMode: _mc.accessMode };
   try {
     const r = await fetch(`${origin}/api/maintenance-check`, {
       headers: { "x-middleware-internal": "1" },
     });
     if (r.ok) {
       const d = await r.json();
-      _mc.v = !!d.maintenance;
+      _mc.maintenance = !!d.maintenance;
+      _mc.accessMode = d.accessMode === "authorized" ? "authorized" : "global";
       _mc.t = now;
     }
   } catch { /* keep stale value */ }
-  return _mc.v;
+  return { maintenance: _mc.maintenance, accessMode: _mc.accessMode };
 }
 
 export async function middleware(request: NextRequest) {
@@ -48,12 +54,26 @@ export async function middleware(request: NextRequest) {
   // ── Public / user routes — maintenance check ────────────────
   if (!pathname.startsWith("/adminpanel") && !pathname.startsWith("/api")) {
     const onMaintPage = pathname === "/maintenance";
-    const maintenance = await isMaintenanceOn(origin);
+    const maintenanceState = await getMaintenanceState(origin);
 
-    if (maintenance && !onMaintPage) {
-      return NextResponse.redirect(new URL("/maintenance", request.url));
+    if (maintenanceState.maintenance) {
+      const response = NextResponse.next();
+      const session = await getIronSession<SessionData>(request, response, sessionOptions);
+      const allowedInAuthorizedMode =
+        maintenanceState.accessMode === "authorized" &&
+        (pathname === "/login" || pathname.startsWith("/invite") || !!session.userId);
+
+      if (!onMaintPage && !allowedInAuthorizedMode) {
+        return NextResponse.redirect(new URL("/maintenance", request.url));
+      }
+
+      if (onMaintPage && allowedInAuthorizedMode) {
+        return NextResponse.redirect(new URL(session.userId ? "/" : "/login", request.url));
+      }
+
+      return response;
     }
-    if (!maintenance && onMaintPage) {
+    if (!maintenanceState.maintenance && onMaintPage) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

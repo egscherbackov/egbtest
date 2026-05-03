@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import { Save, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { LoaderOne } from "@/components/ui/loader";
 
+type MaintenanceAccessMode = "global" | "authorized";
+
 const inputStyle = {
   background: "var(--color-ash-gray)",
   border: "1px solid var(--color-steel-gray)",
@@ -16,6 +18,8 @@ export default function AdminSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [maintenanceAccessMode, setMaintenanceAccessMode] =
+    useState<MaintenanceAccessMode>("global");
   const [maintenanceText, setMaintenanceText] = useState("");
   const [totalOrders, setTotalOrders] = useState(1394);
 
@@ -24,6 +28,7 @@ export default function AdminSettingsPage() {
       .then((r) => r.json())
       .then((d) => {
         setMaintenanceMode(d.settings.maintenanceMode);
+        setMaintenanceAccessMode(d.settings.maintenanceAccessMode ?? "global");
         setMaintenanceText(d.settings.maintenanceText);
         setTotalOrders(d.settings.totalOrders ?? 1394);
       })
@@ -36,7 +41,7 @@ export default function AdminSettingsPage() {
       const res = await fetch("/api/admin/settings", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ maintenanceMode, maintenanceText, totalOrders }),
+        body: JSON.stringify({ maintenanceMode, maintenanceAccessMode, maintenanceText, totalOrders }),
       });
       if (res.ok) {
         toast.success("Настройки сохранены");
@@ -93,7 +98,7 @@ export default function AdminSettingsPage() {
                     </h2>
                   </div>
                   <p className="text-xs" style={{ color: "var(--color-medium-gray)" }}>
-                    Когда включён — посетители видят страницу технических работ. Администратор продолжает работу в обычном режиме.
+                    Выберите полный режим или режим только для гостей. Администратор продолжает работу в обычном режиме.
                   </p>
                 </div>
                 <button
@@ -116,8 +121,48 @@ export default function AdminSettingsPage() {
                   color: maintenanceMode ? "#92400e" : "#166534",
                 }}>
                 {maintenanceMode
-                  ? <><AlertTriangle size={13} /> Технические работы включены — сайт недоступен для пользователей</>
+                  ? <><AlertTriangle size={13} /> {maintenanceAccessMode === "global" ? "Глобальный режим — сайт закрыт для всех пользователей" : "Гостевой режим — авторизованные пользователи могут пользоваться сайтом"}</>
                   : <><CheckCircle2 size={13} /> Сайт работает в штатном режиме</>}
+              </div>
+
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  {
+                    value: "global" as const,
+                    title: "Глобальное обслуживание",
+                    desc: "На сайт может зайти только админ-панель.",
+                  },
+                  {
+                    value: "authorized" as const,
+                    title: "Только для гостей",
+                    desc: "Инвайт, вход и авторизованные пользователи работают.",
+                  },
+                ].map((mode) => (
+                  <button
+                    key={mode.value}
+                    type="button"
+                    onClick={() => setMaintenanceAccessMode(mode.value)}
+                    className="text-left rounded-xl p-3 transition-all"
+                    style={{
+                      background:
+                        maintenanceAccessMode === mode.value
+                          ? "rgba(65,161,207,0.10)"
+                          : "var(--color-ash-gray)",
+                      border: `1px solid ${
+                        maintenanceAccessMode === mode.value
+                          ? "rgba(65,161,207,0.45)"
+                          : "var(--color-cool-gray)"
+                      }`,
+                    }}
+                  >
+                    <span className="block text-sm font-semibold" style={{ color: "var(--color-dark-charcoal)" }}>
+                      {mode.title}
+                    </span>
+                    <span className="mt-1 block text-xs leading-5" style={{ color: "var(--color-medium-gray)" }}>
+                      {mode.desc}
+                    </span>
+                  </button>
+                ))}
               </div>
             </div>
 

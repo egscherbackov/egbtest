@@ -4,7 +4,6 @@ import { getSession } from "@/lib/session";
 
 async function checkAdmin() {
   const session = await getSession();
-  console.log("[settings] session.isAdmin=", session.isAdmin, "userId=", session.userId);
   return session.isAdmin === true;
 }
 
@@ -28,10 +27,14 @@ export async function PATCH(req: NextRequest) {
     const body = await req.json();
     const data: {
       maintenanceMode?: boolean;
+      maintenanceAccessMode?: string;
       maintenanceText?: string;
       totalOrders?: number;
     } = {};
     if (body.maintenanceMode !== undefined) data.maintenanceMode = Boolean(body.maintenanceMode);
+    if (body.maintenanceAccessMode !== undefined) {
+      data.maintenanceAccessMode = body.maintenanceAccessMode === "authorized" ? "authorized" : "global";
+    }
     if (body.maintenanceText !== undefined) data.maintenanceText = String(body.maintenanceText);
     if (body.totalOrders !== undefined) {
       const n = Number(body.totalOrders);
