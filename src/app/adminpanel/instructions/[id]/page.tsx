@@ -206,18 +206,28 @@ export default function AdminInstructionEditPage() {
     setUploadingStepId(stepId);
     const form = new FormData();
     form.append("file", file);
-    const res = await fetch("/api/admin/upload", { method: "POST", body: form });
-    if (res.ok) {
-      const d = await res.json();
-      await fetch(`/api/admin/instructions/${id}/steps/${stepId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageUrl: d.url }),
-      });
-      load();
-    } else {
-      const d = await res.json();
-      alert(d.error || "Ошибка загрузки");
+    try {
+      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+      if (res.ok) {
+        const d = await res.json();
+        const updateRes = await fetch(`/api/admin/instructions/${id}/steps/${stepId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageUrl: d.url }),
+        });
+        if (updateRes.ok) {
+          load();
+        } else {
+          const updateErr = await updateRes.json();
+          alert(`Ошибка сохранения: ${updateErr.error || "Неизвестная ошибка"}`);
+        }
+      } else {
+        const d = await res.json();
+        alert(`Ошибка загрузки: ${d.error || "Неизвестная ошибка"}`);
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert(`Ошибка загрузки: ${error instanceof Error ? error.message : "Неизвестная ошибка"}`);
     }
     setUploadingStepId(null);
   }
