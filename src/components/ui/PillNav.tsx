@@ -117,13 +117,13 @@ export default function PillNav({
     const ev = { onMouseEnter: () => handleEnter(i), onMouseLeave: () => handleLeave(i) };
     if (item.onClick) {
       return (
-        <button className={cls} aria-label={item.ariaLabel || item.label} onClick={item.onClick} style={{ minHeight: "44px" }} {...ev}>
+        <button className={cls} aria-label={item.ariaLabel || item.label} onClick={item.onClick} {...ev}>
           {pillContent(item, i)}
         </button>
       );
     }
     return (
-      <Link href={item.href || "/"} className={cls} aria-label={item.ariaLabel || item.label} style={{ minHeight: "44px" }} {...ev}>
+      <Link href={item.href || "/"} className={cls} aria-label={item.ariaLabel || item.label} {...ev}>
         {pillContent(item, i)}
       </Link>
     );
@@ -164,7 +164,7 @@ export default function PillNav({
       )}
 
       {onHamburgerClick && (
-        <button className="pn-hamburger" onClick={onHamburgerClick} aria-label="Toggle menu" style={{ minHeight: "44px", minWidth: "44px", padding: "8px" }}>
+        <button className="pn-hamburger" onClick={onHamburgerClick} aria-label="Toggle menu">
           <span className="pn-hline" />
           <span className="pn-hline" />
         </button>
