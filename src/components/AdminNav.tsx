@@ -36,6 +36,10 @@ export default function AdminNav({ adminUsername: _ }: AdminNavProps) {
 
   const rightItems: PillNavItem[] = [
     {
+      label: "Открыть сайт",
+      href: "/",
+    },
+    {
       label: "Выйти",
       prefix: <LogOut size={11} />,
       onClick: handleLogout,

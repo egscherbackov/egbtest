@@ -70,9 +70,9 @@ export default function PillNav({
 
       tlRefs.current[i]?.kill();
       const tl = gsap.timeline({ paused: true });
-      tl.to(circle, { scale: 1.2, xPercent: -50, duration: 2, ease, overwrite: "auto" }, 0);
-      if (label) tl.to(label, { y: -(h + 8), duration: 2, ease, overwrite: "auto" }, 0);
-      if (hover) tl.to(hover, { y: 0, opacity: 1, duration: 2, ease, overwrite: "auto" }, 0);
+      tl.to(circle, { scale: 1.2, xPercent: -50, duration: 0.6, ease, overwrite: "auto" }, 0);
+      if (label) tl.to(label, { y: -(h + 8), duration: 0.6, ease, overwrite: "auto" }, 0);
+      if (hover) tl.to(hover, { y: 0, opacity: 1, duration: 0.6, ease, overwrite: "auto" }, 0);
       tlRefs.current[i] = tl;
     });
   }, [ease]);
@@ -88,14 +88,14 @@ export default function PillNav({
     const tl = tlRefs.current[i];
     if (!tl) return;
     tweenRefs.current[i]?.kill();
-    tweenRefs.current[i] = tl.tweenTo(tl.duration(), { duration: 0.45, ease, overwrite: "auto" }) as gsap.core.Tween;
+    tweenRefs.current[i] = tl.tweenTo(tl.duration(), { duration: 0.35, ease: "power2.out", overwrite: "auto" }) as gsap.core.Tween;
   };
 
   const handleLeave = (i: number) => {
     const tl = tlRefs.current[i];
     if (!tl) return;
     tweenRefs.current[i]?.kill();
-    tweenRefs.current[i] = tl.tweenTo(0, { duration: 0.3, ease, overwrite: "auto" }) as gsap.core.Tween;
+    tweenRefs.current[i] = tl.tweenTo(0, { duration: 0.25, ease: "power2.out", overwrite: "auto" }) as gsap.core.Tween;
   };
 
   const pillContent = (item: PillNavItem, i: number) => (

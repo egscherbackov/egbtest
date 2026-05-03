@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import Logo from "@/components/Logo";
 import PillNav, { type PillNavItem } from "@/components/ui/PillNav";
@@ -25,9 +26,12 @@ interface HeaderProps {
 }
 
 export default function Header({ user, isAdmin }: HeaderProps) {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const isInAdminPanel = pathname?.startsWith("/adminpanel") && !pathname?.includes("/login");
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -50,11 +54,11 @@ export default function Header({ user, isAdmin }: HeaderProps) {
     { label: "Услуги",        href: "/#services" },
     { label: "Как работает",  href: "/#how" },
     ...(user    ? [{ label: "Кабинет", href: "/instructions" }] : []),
-    ...(isAdmin ? [{ label: "Админ",   href: "/adminpanel"   }] : []),
+    ...(isAdmin && !isInAdminPanel ? [{ label: "Админ",   href: "/adminpanel"   }] : []),
   ];
 
   const avatar = user
-    ? <span style={{ width: 16, height: 16, borderRadius: "50%", background: "var(--color-cofounder-blue)", color: "white", fontSize: 9, fontWeight: 700, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{user.name.charAt(0).toUpperCase()}</span>
+    ? <span style={{ width: 18, height: 18, borderRadius: "50%", background: "var(--color-cofounder-blue)", color: "white", fontSize: 10, fontWeight: 700, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0, lineHeight: 1 }}>{user.name.charAt(0).toUpperCase()}</span>
     : null;
 
   const rightItems: PillNavItem[] = user ? [
@@ -77,6 +81,23 @@ export default function Header({ user, isAdmin }: HeaderProps) {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+      {/* Floating ADMIN PANEL button when in admin panel */}
+      {isInAdminPanel && (
+        <div className="fixed top-3 right-4 sm:right-6 pointer-events-auto">
+          <Link
+            href="/adminpanel"
+            className="px-4 py-2 text-xs font-semibold rounded-full transition-all hover:scale-105"
+            style={{
+              background: "rgba(65,161,207,0.15)",
+              border: "1px solid rgba(65,161,207,0.3)",
+              color: "var(--color-action-azure)",
+            }}
+          >
+            АДМИН ПАНЕЛЬ
+          </Link>
+        </div>
+      )}
+
       {/* Floating pill row */}
       <div className="flex justify-center pt-3 px-4 sm:px-6">
         {/* Wrapper: auto-width on desktop, full-width on mobile */}
