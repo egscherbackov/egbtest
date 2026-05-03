@@ -38,12 +38,6 @@ export default function LoadingScreen() {
           />
         </div>
 
-        <p
-          className="animate-loading-text font-semibold text-white/40 text-xs tracking-widest uppercase"
-          style={{ animationDelay: "0.4s", opacity: 0 }}
-        >
-          Premium Buying Service
-        </p>
       </div>
     </div>
   );

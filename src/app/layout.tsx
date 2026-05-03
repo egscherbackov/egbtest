@@ -15,9 +15,9 @@ const nunitoSans = Nunito_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "EGORBUYER.COM — Premium Buying Service",
+  title: "EGORBUYER.COM",
   description:
-    "Профессиональный байинг сервис. Покупка товаров с зарубежных маркетплейсов.",
+    "Покупаем товары с Amazon, eBay, Taobao и других зарубежных маркетплейсов.",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
   ),
