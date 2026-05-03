@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/session";
 import { prisma } from "@/lib/db";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { formatDate } from "@/lib/utils";
@@ -162,6 +163,7 @@ export default async function DashboardPage() {
           )}
         </div>
       </main>
+      <Footer />
 
       <a
         href="https://t.me/egor6p"

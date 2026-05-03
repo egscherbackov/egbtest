@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { LoaderOne } from "@/components/ui/loader";
 
 interface Step {
@@ -247,6 +248,7 @@ export default function InstructionPage() {
 
         </div>
       </main>
+      <Footer />
 
       <a
         href="https://t.me/egor6p"

@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/session";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default async function ONasPage() {
   const session = await getSession();
@@ -16,6 +17,7 @@ export default async function ONasPage() {
           <h1 style={{ color: "white", fontSize: "32px" }}>О нас</h1>
         </div>
       </main>
+      <Footer />
     </>
   );
 }

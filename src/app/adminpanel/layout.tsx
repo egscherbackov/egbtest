@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import AdminNav from "@/components/AdminNav";
+import Footer from "@/components/Footer";
 
 export default function AdminPanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -11,6 +12,7 @@ export default function AdminPanelLayout({ children }: { children: React.ReactNo
     <>
       {!isLogin && <AdminNav adminUsername="admin" />}
       {children}
+      {!isLogin && <Footer />}
     </>
   );
 }
