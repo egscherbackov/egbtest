@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
+import AdminQuickInvite from "@/components/AdminQuickInvite";
 import { Users, CheckCircle2, Link2, CircleDot, KeyRound, UserPlus, BookOpen, BookMarked, Eye } from "lucide-react";
 
 export default async function AdminDashboard() {
@@ -62,6 +63,8 @@ export default async function AdminDashboard() {
             </div>
           ))}
         </div>
+
+        <AdminQuickInvite />
 
         {/* Quick Links */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
