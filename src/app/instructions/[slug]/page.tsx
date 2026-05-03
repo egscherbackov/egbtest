@@ -99,7 +99,7 @@ export default function InstructionPage() {
         className="pt-14 flex flex-col h-screen overflow-hidden"
         style={{ background: "#000000" }}
       >
-        <div className="flex-1 flex flex-col md:min-h-0 max-w-2xl mx-auto w-full px-4 sm:px-6 py-8">
+        <div className="flex-1 flex flex-col md:min-h-0 max-w-2xl mx-auto w-full px-4 sm:px-6 py-8 pb-24 md:pb-8">
 
           {/* Breadcrumb */}
           <div className="flex items-center gap-3 mb-6 shrink-0">
@@ -173,8 +173,9 @@ export default function InstructionPage() {
             </div>
           </div>
 
-          {/* Navigation — always at bottom on desktop */}
-          <div className="shrink-0">
+          {/* Navigation — always at bottom on desktop, fixed on mobile */}
+          <div className="shrink-0 md:static fixed bottom-0 left-0 right-0 px-4 sm:px-6 py-3 md:py-0"
+               style={{ background: "rgba(0,0,0,0.9)", backdropFilter: "blur(10px)", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
             <div className="flex items-center justify-between gap-3">
               <button
                 onClick={() => setCurrentStep((s) => Math.max(0, s - 1))}
@@ -254,7 +255,6 @@ export default function InstructionPage() {
               </span>
             </div>
           </div>
-
         </div>
       </main>
       <Footer />
