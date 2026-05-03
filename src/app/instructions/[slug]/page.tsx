@@ -120,7 +120,7 @@ export default function InstructionPage() {
           </div>
 
           {/* Progress */}
-          <div className="mb-6 shrink-0">
+          <div className="mb-8 shrink-0">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.45)" }}>
                 Шаг {currentStep + 1} из {total}
@@ -186,6 +186,7 @@ export default function InstructionPage() {
                   color: "rgba(255,255,255,0.8)",
                   borderRadius: "4px",
                   background: "rgba(255,255,255,0.05)",
+                  minWidth: "100px",
                 }}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -194,22 +195,23 @@ export default function InstructionPage() {
                 Назад
               </button>
 
-              <div className="flex gap-1.5">
+              <div className="flex gap-2">
                 {category.steps.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setCurrentStep(i)}
-                    className="rounded-full transition-all flex-shrink-0"
+                    className="rounded-full transition-all duration-300 ease-out flex-shrink-0"
                     style={{
-                      width: "8px",
-                      height: "8px",
+                      width: "6px",
+                      height: "6px",
                       background:
                         i === currentStep
                           ? "var(--color-cofounder-blue)"
                           : i < currentStep
                           ? "var(--color-action-azure)"
-                          : "rgba(255,255,255,0.15)",
-                      transform: i === currentStep ? "scale(2.5)" : "scale(1)",
+                          : "rgba(255,255,255,0.2)",
+                      transform: i === currentStep ? "scale(1.8)" : "scale(1)",
+                      boxShadow: i === currentStep ? "0 0 8px var(--color-cofounder-blue)" : "none",
                     }}
                   />
                 ))}
@@ -219,7 +221,7 @@ export default function InstructionPage() {
                 <button
                   onClick={() => setCurrentStep((s) => Math.min(total - 1, s + 1))}
                   className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium transition-all hover:opacity-90"
-                  style={{ background: "var(--color-cofounder-blue)", color: "white", borderRadius: "4px" }}
+                  style={{ background: "var(--color-cofounder-blue)", color: "white", borderRadius: "4px", minWidth: "100px" }}
                 >
                   Далее
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -230,7 +232,7 @@ export default function InstructionPage() {
                 <Link
                   href="/instructions"
                   className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium transition-all hover:opacity-90"
-                  style={{ background: "var(--color-cofounder-blue)", color: "white", borderRadius: "4px" }}
+                  style={{ background: "var(--color-cofounder-blue)", color: "white", borderRadius: "4px", minWidth: "100px" }}
                 >
                   Готово
                 </Link>
