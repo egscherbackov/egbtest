@@ -51,10 +51,9 @@ export default function Header({ user, isAdmin }: HeaderProps) {
   }
 
   const navItems: PillNavItem[] = [
-    { label: "Услуги",        href: "/#services" },
-    { label: "Как работает",  href: "/#how" },
-    ...(user    ? [{ label: "Кабинет", href: "/instructions" }] : []),
-    ...(isAdmin && !isInAdminPanel ? [{ label: "Админ",   href: "/adminpanel"   }] : []),
+    { label: "Услуги",   href: "/#services" },
+    { label: "Отзывы",   href: "/#reviews" },
+    { label: "О нас",    href: "/#about" },
   ];
 
   const avatar = user
@@ -74,9 +73,8 @@ export default function Header({ user, isAdmin }: HeaderProps) {
 
   const mobileLinks = [
     { href: "/#services",     label: "Услуги" },
-    { href: "/#how",          label: "Как работает" },
-    ...(user    ? [{ href: "/instructions", label: "Личный кабинет" }] : []),
-    ...(isAdmin ? [{ href: "/adminpanel",   label: "Админ панель"  }] : []),
+    { href: "/#reviews",      label: "Отзывы" },
+    { href: "/#about",        label: "О нас" },
   ];
 
   return (
