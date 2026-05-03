@@ -130,7 +130,7 @@ export default function PillNav({
   };
 
   return (
-    <div className="pn-bar">
+    <div className="pn-bar" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
       {logoNode && (
         <Link href={logoHref} className="pn-logo-link">
           {logoNode}
@@ -140,7 +140,7 @@ export default function PillNav({
       {items.length > 0 && (
         <>
           {logoNode && <span className="pn-sep pn-de" />}
-          <ul className="pn-list pn-de" role="menubar">
+          <ul className="pn-list pn-de" role="menubar" style={{ flex: 1, justifyContent: "center" }}>
             {items.map((item, i) => (
               <li key={item.href || `item-${i}`} role="none" className="pn-li">
                 {renderPill(item, i, activeHref === item.href)}

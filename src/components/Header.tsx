@@ -51,9 +51,9 @@ export default function Header({ user, isAdmin }: HeaderProps) {
   }
 
   const navItems: PillNavItem[] = [
-    { label: "Услуги",   href: "/#services" },
-    { label: "Отзывы",   href: "/#reviews" },
-    { label: "О нас",    href: "/#about" },
+    { label: "Услуги",   href: "/uslugi" },
+    { label: "Отзывы",   href: "/otzyvy" },
+    { label: "О нас",    href: "/o-nas" },
   ];
 
   const avatar = user
@@ -72,9 +72,9 @@ export default function Header({ user, isAdmin }: HeaderProps) {
   ];
 
   const mobileLinks = [
-    { href: "/#services",     label: "Услуги" },
-    { href: "/#reviews",      label: "Отзывы" },
-    { href: "/#about",        label: "О нас" },
+    { href: "/uslugi",     label: "Услуги" },
+    { href: "/otzyvy",      label: "Отзывы" },
+    { href: "/o-nas",        label: "О нас" },
   ];
 
   return (
@@ -99,7 +99,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
       {/* Floating pill row */}
       <div className="flex justify-center pt-3 px-4 sm:px-6">
         {/* Wrapper: auto-width on desktop, full-width on mobile */}
-        <div ref={dropdownRef} className="relative pointer-events-auto w-full md:w-auto">
+        <div ref={dropdownRef} className="relative pointer-events-auto w-full md:w-auto flex items-center justify-center">
           <PillNav
             logoNode={<Logo size="sm" inverted />}
             logoHref="/"
