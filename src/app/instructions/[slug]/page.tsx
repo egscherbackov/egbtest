@@ -257,19 +257,18 @@ export default function InstructionPage() {
           </div>
         </div>
       </main>
-      <Footer />
 
       <a
         href="https://t.me/egor6p"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 rounded-full text-sm font-medium shadow-lg hover:opacity-90 transition-all z-40"
+        className="fixed bottom-20 md:bottom-6 right-4 md:right-6 flex items-center gap-2 px-3 py-2 md:px-4 md:py-3 rounded-full text-xs md:text-sm font-medium shadow-lg hover:opacity-90 transition-all z-40"
         style={{ background: "var(--color-cofounder-blue)", color: "white" }}
       >
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.932z" />
         </svg>
-        <span className="hidden sm:block">Помощь</span>
+        <span className="hidden sm:inline">Остались вопросы?</span>
       </a>
     </>
   );
