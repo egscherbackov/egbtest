@@ -16,8 +16,7 @@ const nunitoSans = Nunito_Sans({
 
 export const metadata: Metadata = {
   title: "EGORBUYER.COM",
-  description:
-    "Покупаем товары с Amazon, eBay, Taobao и других зарубежных маркетплейсов.",
+  description: "Скоро...",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
   ),
