@@ -162,19 +162,19 @@ export default function InstructionPage() {
             )}
             <div className="p-6 sm:p-8 md:overflow-y-auto">
               <h2
-                className="font-display mb-4"
-                style={{ fontSize: "22px", fontWeight: 500, color: "white", letterSpacing: "-0.3px" }}
+                className="mb-4"
+                style={{ fontSize: "22px", fontWeight: 500, color: "white", letterSpacing: "-0.3px", fontFamily: "var(--font-nunito-sans), sans-serif" }}
               >
                 {step.title}
               </h2>
-              <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "15px", lineHeight: 1.7 }}>
+              <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "15px", lineHeight: 1.7, fontFamily: "var(--font-nunito-sans), sans-serif" }}>
                 {step.description}
               </p>
             </div>
           </div>
 
           {/* Navigation — always at bottom on desktop, fixed on mobile */}
-          <div className="shrink-0 md:static fixed bottom-0 left-0 right-0 px-4 sm:px-6 py-3 md:py-0"
+          <div className="shrink-0 md:static fixed bottom-0 left-0 right-0 px-4 sm:px-6 py-3 md:py-0 md:mt-6"
                style={{ background: "rgba(0,0,0,0.9)", backdropFilter: "blur(10px)", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
             <div className="flex items-center justify-between gap-3">
               <button
@@ -199,9 +199,9 @@ export default function InstructionPage() {
                   <button
                     key={i}
                     onClick={() => setCurrentStep(i)}
-                    className="rounded-full transition-all"
+                    className="rounded-full transition-all flex-shrink-0"
                     style={{
-                      width: i === currentStep ? "20px" : "8px",
+                      width: "8px",
                       height: "8px",
                       background:
                         i === currentStep
@@ -209,6 +209,7 @@ export default function InstructionPage() {
                           : i < currentStep
                           ? "var(--color-action-azure)"
                           : "rgba(255,255,255,0.15)",
+                      transform: i === currentStep ? "scale(2.5)" : "scale(1)",
                     }}
                   />
                 ))}
