@@ -8,6 +8,11 @@ import Logo from "@/components/Logo";
 import PillNav, { type PillNavItem } from "@/components/ui/PillNav";
 import { LogOut, ChevronDown } from "lucide-react";
 
+interface MaintenanceState {
+  maintenance: boolean;
+  accessMode: "global" | "authorized";
+}
+
 const dropdownVariants = {
   hidden:  { opacity: 0, scale: 0.95, y: -6 },
   visible: { opacity: 1, scale: 1,    y:  0, transition: { type: "spring" as const, stiffness: 320, damping: 22 } },
@@ -29,6 +34,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [maintenanceState, setMaintenanceState] = useState<MaintenanceState>({ maintenance: false, accessMode: "global" });
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const isInAdminPanel = pathname?.startsWith("/adminpanel") && !pathname?.includes("/login");
@@ -41,6 +47,19 @@ export default function Header({ user, isAdmin }: HeaderProps) {
     }
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  useEffect(() => {
+    async function fetchMaintenance() {
+      try {
+        const res = await fetch("/api/maintenance-check");
+        const data = await res.json();
+        setMaintenanceState({ maintenance: data.maintenance, accessMode: data.accessMode });
+      } catch {
+        setMaintenanceState({ maintenance: false, accessMode: "global" });
+      }
+    }
+    fetchMaintenance();
   }, []);
 
   async function handleLogout() {
@@ -67,7 +86,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
       suffix: <ChevronDown size={10} style={{ marginLeft: 1 }} />,
       onClick: () => setMenuOpen((v) => !v),
     },
-  ] : [
+  ] : maintenanceState.maintenance && maintenanceState.accessMode === "global" ? [] : [
     { label: "Войти", href: "/login" },
   ];
 
