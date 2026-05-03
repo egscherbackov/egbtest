@@ -10,7 +10,7 @@ import { LogOut, ChevronDown } from "lucide-react";
 
 interface MaintenanceState {
   maintenance: boolean;
-  accessMode: "global" | "authorized";
+  accessMode: "global" | "authorized" | "guest";
 }
 
 const dropdownVariants = {
@@ -86,9 +86,9 @@ export default function Header({ user, isAdmin }: HeaderProps) {
       suffix: <ChevronDown size={10} style={{ marginLeft: 1 }} />,
       onClick: () => setMenuOpen((v) => !v),
     },
-  ] : maintenanceState.maintenance && (maintenanceState.accessMode === "global" || maintenanceState.accessMode === "authorized") ? [] : [
+  ] : !maintenanceState.maintenance || maintenanceState.accessMode === "guest" ? [
     { label: "Войти", href: "/login" },
-  ];
+  ] : [];
 
   const mobileLinks = [
     { href: "/uslugi",     label: "Услуги" },
