@@ -17,8 +17,10 @@ const nunitoSans = Nunito_Sans({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  maximumScale: 5,
   viewportFit: "cover",
   themeColor: "#000000",
+  interactiveWidget: "resizes-content",
 };
 
 export const metadata: Metadata = {
