@@ -32,6 +32,13 @@ export default function InstructionPage() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<{ id: string; name: string } | null>(null);
 
+  // Taptic Engine vibration function
+  const triggerHaptic = (pattern: number | number[]) => {
+    if (navigator.vibrate) {
+      navigator.vibrate(pattern);
+    }
+  };
+
   useEffect(() => {
     fetch("/api/auth/me")
       .then((r) => r.json())
@@ -63,13 +70,24 @@ export default function InstructionPage() {
   // Keyboard arrow navigation
   useEffect(() => {
     if (!category) return;
+    const steps = category.steps;
     function handleKey(e: KeyboardEvent) {
-      if (e.key === "ArrowRight") setCurrentStep((s) => Math.min(category!.steps.length - 1, s + 1));
-      if (e.key === "ArrowLeft")  setCurrentStep((s) => Math.max(0, s - 1));
+      if (e.key === "ArrowRight") {
+        if (currentStep < steps.length - 1) {
+          triggerHaptic([10]);
+          setCurrentStep((s) => Math.min(steps.length - 1, s + 1));
+        }
+      }
+      if (e.key === "ArrowLeft") {
+        if (currentStep > 0) {
+          triggerHaptic([10]);
+          setCurrentStep((s) => Math.max(0, s - 1));
+        }
+      }
     }
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [category]);
+  }, [category, currentStep, triggerHaptic]);
 
   if (loading || !category) {
     return (
@@ -87,7 +105,7 @@ export default function InstructionPage() {
     <>
       <Header user={user} />
       <main
-        className="pt-14 flex flex-col md:h-screen md:overflow-hidden"
+        className="pt-14 flex flex-col h-screen overflow-hidden"
         style={{ background: "#000000" }}
       >
         <div className="flex-1 flex flex-col md:min-h-0 max-w-2xl mx-auto w-full px-4 sm:px-6 py-8">
@@ -168,7 +186,12 @@ export default function InstructionPage() {
           <div className="shrink-0">
             <div className="flex items-center justify-between gap-3">
               <button
-                onClick={() => setCurrentStep((s) => Math.max(0, s - 1))}
+                onClick={() => {
+                  if (currentStep > 0) {
+                    triggerHaptic([10]);
+                    setCurrentStep((s) => Math.max(0, s - 1));
+                  }
+                }}
                 disabled={currentStep === 0}
                 className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium transition-all hover:opacity-80 disabled:opacity-30"
                 style={{
@@ -188,7 +211,12 @@ export default function InstructionPage() {
                 {category.steps.map((_, i) => (
                   <button
                     key={i}
-                    onClick={() => setCurrentStep(i)}
+                    onClick={() => {
+                      if (i !== currentStep) {
+                        triggerHaptic([10]);
+                        setCurrentStep(i);
+                      }
+                    }}
                     className="rounded-full transition-all"
                     style={{
                       width: i === currentStep ? "20px" : "8px",
@@ -206,7 +234,10 @@ export default function InstructionPage() {
 
               {currentStep < total - 1 ? (
                 <button
-                  onClick={() => setCurrentStep((s) => Math.min(total - 1, s + 1))}
+                  onClick={() => {
+                    triggerHaptic([10]);
+                    setCurrentStep((s) => Math.min(total - 1, s + 1));
+                  }}
                   className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium transition-all hover:opacity-90"
                   style={{ background: "var(--color-cofounder-blue)", color: "white", borderRadius: "4px" }}
                 >

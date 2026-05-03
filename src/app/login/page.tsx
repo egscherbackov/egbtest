@@ -30,12 +30,24 @@ function LoginForm() {
     const full = lines.join("\n");
     let i = 0;
     setTypedText("");
+
+    // Progressive Taptic Engine vibration
+    if (navigator.vibrate) {
+      navigator.vibrate(10);
+      setTimeout(() => navigator.vibrate([15]), 200);
+      setTimeout(() => navigator.vibrate([20]), 400);
+      setTimeout(() => navigator.vibrate([25]), 600);
+    }
+
     intervalRef.current = setInterval(() => {
       i++;
       setTypedText(full.slice(0, i));
       if (i >= full.length) {
         if (intervalRef.current) clearInterval(intervalRef.current);
         setTimeout(() => {
+          if (navigator.vibrate) {
+            navigator.vibrate([30, 50, 30]);
+          }
           router.push("/instructions");
           router.refresh();
         }, 900);
