@@ -235,7 +235,7 @@ export default function InvitePage() {
 
         <div className="rounded-2xl p-8"
           style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)" }}>
-          <h1 className="font-display text-center mb-2"
+          <h1 className="text-center mb-2"
             style={{ fontSize: "26px", fontWeight: 500, letterSpacing: "-0.4px", color: "white" }}>
             Активация аккаунта
           </h1>
