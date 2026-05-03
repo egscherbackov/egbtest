@@ -41,12 +41,12 @@ export default function HomeHero({ user, totalOrders }: HomeHeroProps) {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0.72) 18%, rgba(0,0,0,0.58) 52%, rgba(0,0,0,0.78) 82%, #000000 100%)",
+            "linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0.35) 18%, rgba(0,0,0,0.25) 52%, rgba(0,0,0,0.45) 82%, #000000 100%)",
         }}
       />
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "rgba(0,0,0,0.32)" }}
+        style={{ background: "rgba(0,0,0,0.15)" }}
       />
 
       {/* Content */}
