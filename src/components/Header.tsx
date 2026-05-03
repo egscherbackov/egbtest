@@ -98,11 +98,8 @@ export default function Header({ user, isAdmin }: HeaderProps) {
 
       {/* Floating pill row */}
       <div className="flex justify-center pt-3 px-4 sm:px-6">
-        <Link href="/" className="flex justify-center mb-8 hover:opacity-80 transition-opacity duration-150">
-          <Logo size="md" inverted />
-        </Link>
         {/* Wrapper: auto-width on desktop, full-width on mobile */}
-        <div ref={dropdownRef} className="relative pointer-events-auto w-full md:w-auto flex items-center justify-center">
+        <div ref={dropdownRef} className="relative pointer-events-auto w-full md:w-auto">
           <PillNav
             logoNode={<Logo size="sm" inverted />}
             logoHref="/"
