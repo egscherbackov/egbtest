@@ -160,23 +160,23 @@ export default function Header({ user, isAdmin }: HeaderProps) {
             <span style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
 
             {/* Right slot */}
-            <div className="flex items-center" style={{ width: "80px", justifyContent: "center" }}>
+            <div className="flex items-center" style={{ width: "auto", justifyContent: "center" }}>
               {user ? (
                 <div ref={dropdownRef} className="relative">
                   <button
                     onClick={() => setMenuOpen((v) => !v)}
-                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-full transition-all"
+                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-full transition-all whitespace-nowrap"
                     style={{ color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.05)" }}
                   >
                     {avatar}
-                    {user.name.split(" ")[0] || user.name}
+                    <span className="max-w-24 truncate">{user.name.split(" ")[0] || user.name}</span>
                     <ChevronDown size={10} style={{ marginLeft: 1 }} />
                   </button>
 
                   {/* User dropdown */}
                   {menuOpen && (
                     <div
-                      className="absolute right-0 w-44 rounded-xl overflow-hidden origin-top-right"
+                      className="absolute right-0 w-44 rounded-xl overflow-hidden origin-top-right z-50"
                       style={{
                         top: "calc(100% + 8px)",
                         background: "#0e1622",
