@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Logo from "@/components/Logo";
 import { LogOut, ChevronDown, Menu, X } from "lucide-react";
+import { createPortal } from "react-dom";
 
 interface MaintenanceState {
   maintenance: boolean;
@@ -223,68 +224,112 @@ export default function Header({ user, isAdmin }: HeaderProps) {
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileOpen((v) => !v)}
-              className="md:hidden flex items-center justify-center w-8 h-8 rounded-full transition-colors hover:bg-white/10"
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-full transition-colors hover:bg-white/10"
               style={{ color: "rgba(255,255,255,0.6)" }}
               aria-label="Toggle menu"
             >
-              <Menu size={18} />
+              <Menu size={20} />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div
-          className="pointer-events-auto overflow-hidden mx-4 mt-2 rounded-2xl"
-          style={{ background: "rgba(10,16,28,0.95)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)" }}
-        >
-          <nav className="flex flex-col px-2 py-2 gap-0.5">
-            {mobileLinks.map(({ href, label }) => {
-              const isActive = pathname === href;
-              return (
-                <a
-                  key={href}
-                  href={href}
+      {/* Sidebar menu */}
+      {mobileOpen && typeof window !== "undefined" &&
+        createPortal(
+          <div>
+            {/* Overlay */}
+            <div
+              onClick={() => setMobileOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 md:hidden"
+              style={{ opacity: 1, transition: "opacity 0.2s ease-out" }}
+            />
+            {/* Sidebar */}
+            <div
+              className="fixed top-0 left-0 h-full w-80 max-w-[85vw] z-50 md:hidden"
+              style={{
+                background: "rgba(10, 14, 24, 0.98)",
+                backdropFilter: "blur(20px)",
+                borderRight: "1px solid rgba(255,255,255,0.1)",
+                transform: "translateX(0)",
+                transition: "transform 0.3s ease-out",
+              }}
+            >
+              {/* Sidebar header */}
+              <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
+                <Logo size="md" inverted />
+                <button
                   onClick={() => setMobileOpen(false)}
-                  className="block px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
-                  style={{
-                    color: isActive ? "var(--color-cofounder-blue)" : "rgba(255,255,255,0.8)",
-                    background: isActive ? "rgba(65,161,207,0.12)" : "transparent",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.background = "transparent";
-                    }
-                  }}
+                  className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                  style={{ color: "rgba(255,255,255,0.6)" }}
                 >
-                  {label}
-                </a>
-              );
-            })}
-            {user && (
-              <button
-                onClick={handleLogout}
-                className="px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left"
-                style={{ color: "rgba(255,255,255,0.4)" }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                }}
-              >
-                Выйти
-              </button>
-            )}
-          </nav>
-        </div>
-      )}
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Sidebar content */}
+              <nav className="flex flex-col px-4 py-6 gap-2">
+                {navItems.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center px-4 py-4 rounded-xl text-base font-medium transition-all duration-200"
+                      style={{
+                        color: isActive ? "var(--color-cofounder-blue)" : "rgba(255,255,255,0.8)",
+                        background: isActive ? "rgba(65,161,207,0.12)" : "transparent",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.background = "transparent";
+                        }
+                      }}
+                    >
+                      {item.label}
+                    </a>
+                  );
+                })}
+              </nav>
+
+              {/* Sidebar footer */}
+              {user && (
+                <div className="absolute bottom-0 left-0 right-0 px-4 py-6 border-t border-white/10">
+                  <div className="flex items-center gap-3 mb-4 px-2">
+                    <span style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--color-cofounder-blue)", color: "white", fontSize: 14, fontWeight: 700, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+                      {user.name.charAt(0).toUpperCase()}
+                    </span>
+                    <div>
+                      <div style={{ color: "rgba(255,255,255,0.9)", fontSize: 14, fontWeight: 500 }}>
+                        {user.name}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200"
+                    style={{ color: "rgba(255,255,255,0.5)", background: "rgba(255,255,255,0.05)" }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+                    }}
+                  >
+                    <LogOut size={16} /> Выйти
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>,
+          document.body
+        )}
     </header>
   );
 }
