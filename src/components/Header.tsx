@@ -114,11 +114,11 @@ export default function Header({ user, isAdmin }: HeaderProps) {
       <div className="flex justify-center pt-3 px-4 sm:px-6">
         <div className="relative pointer-events-auto w-full md:w-auto">
           {/* Mobile layout - separate pills */}
-          <div className="md:hidden flex items-center justify-between w-full gap-4">
+          <div className="md:hidden relative w-full">
             {/* Hamburger pill on left */}
             <button
               onClick={() => setMobileOpen((v) => !v)}
-              className="flex items-center justify-center w-12 h-12 rounded-full transition-colors"
+              className="absolute left-0 top-0 flex items-center justify-center w-12 h-12 rounded-full transition-colors"
               style={{
                 color: "rgba(255,255,255,0.6)",
                 background: "rgba(10, 14, 24, 0.48)",
@@ -133,12 +133,13 @@ export default function Header({ user, isAdmin }: HeaderProps) {
             {/* Logo pill centered */}
             <a
               href="/"
-              className="flex items-center justify-center px-5 py-3 rounded-full transition-all duration-200"
+              className="flex items-center justify-center px-5 py-3 rounded-full transition-all duration-200 mx-auto"
               style={{
                 textDecoration: "none",
                 background: "rgba(10, 14, 24, 0.48)",
                 border: "1px solid rgba(255,255,255,0.13)",
                 backdropFilter: "blur(18px)",
+                display: "inline-block",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "rgba(255,255,255,0.08)";
