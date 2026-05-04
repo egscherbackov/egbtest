@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Logo from "@/components/Logo";
 import { LogOut, ChevronDown, Menu, X } from "lucide-react";
 
@@ -15,12 +16,13 @@ interface HeaderProps {
 }
 
 export default function Header({ user, isAdmin }: HeaderProps) {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [maintenanceState, setMaintenanceState] = useState<MaintenanceState>({ maintenance: false, accessMode: "global" });
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const isInAdminPanel = typeof window !== "undefined" && window.location.pathname?.startsWith("/adminpanel") && !window.location.pathname?.includes("/login");
+  const isInAdminPanel = pathname?.startsWith("/adminpanel") && !pathname?.includes("/login");
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -116,18 +118,35 @@ export default function Header({ user, isAdmin }: HeaderProps) {
 
             {/* Navigation */}
             <nav className="flex items-center gap-1" style={{ flex: 1, justifyContent: "center" }}>
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="px-4 py-2 text-sm font-medium rounded-full transition-all"
-                  style={{
-                    color: "rgba(255,255,255,0.72)",
-                  }}
-                >
-                  {item.label}
-                </a>
-              ))}
+              {navItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="px-4 py-2 text-sm font-medium rounded-full transition-all duration-200"
+                    style={{
+                      color: isActive ? "var(--color-cofounder-blue)" : "rgba(255,255,255,0.72)",
+                      background: isActive ? "rgba(65,161,207,0.12)" : "transparent",
+                      transform: isActive ? "scale(1.05)" : "scale(1)",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                        e.currentTarget.style.transform = "scale(1.05)";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = "transparent";
+                        e.currentTarget.style.transform = "scale(1)";
+                      }
+                    }}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
             </nav>
 
             {/* Separator */}
@@ -180,8 +199,16 @@ export default function Header({ user, isAdmin }: HeaderProps) {
               ) : !maintenanceState.maintenance || maintenanceState.accessMode === "guest" ? (
                 <a
                   href="/login"
-                  className="px-4 py-2 text-sm font-medium rounded-full transition-all"
+                  className="px-4 py-2 text-sm font-medium rounded-full transition-all duration-200"
                   style={{ color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.05)" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+                    e.currentTarget.style.transform = "scale(1.05)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
                 >
                   Войти
                 </a>
@@ -208,22 +235,44 @@ export default function Header({ user, isAdmin }: HeaderProps) {
           style={{ background: "rgba(10,16,28,0.95)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)" }}
         >
           <nav className="flex flex-col px-2 py-2 gap-0.5">
-            {mobileLinks.map(({ href, label }) => (
-              <a
-                key={href}
-                href={href}
-                onClick={() => setMobileOpen(false)}
-                className="block px-3 py-2.5 rounded-xl text-sm font-medium transition-colors hover:bg-white/8"
-                style={{ color: "rgba(255,255,255,0.8)" }}
-              >
-                {label}
-              </a>
-            ))}
+            {mobileLinks.map(({ href, label }) => {
+              const isActive = pathname === href;
+              return (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
+                  style={{
+                    color: isActive ? "var(--color-cofounder-blue)" : "rgba(255,255,255,0.8)",
+                    background: isActive ? "rgba(65,161,207,0.12)" : "transparent",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.background = "transparent";
+                    }
+                  }}
+                >
+                  {label}
+                </a>
+              );
+            })}
             {user && (
               <button
                 onClick={handleLogout}
-                className="px-3 py-2.5 rounded-xl text-sm font-medium transition-colors hover:bg-white/8 text-left"
+                className="px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left"
                 style={{ color: "rgba(255,255,255,0.4)" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                }}
               >
                 Выйти
               </button>
