@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import Logo from "@/components/Logo";
 import { LogOut, ChevronDown, Menu, X } from "lucide-react";
 
@@ -17,13 +15,12 @@ interface HeaderProps {
 }
 
 export default function Header({ user, isAdmin }: HeaderProps) {
-  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [maintenanceState, setMaintenanceState] = useState<MaintenanceState>({ maintenance: false, accessMode: "global" });
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const isInAdminPanel = pathname?.startsWith("/adminpanel") && !pathname?.includes("/login");
+  const isInAdminPanel = typeof window !== "undefined" && window.location.pathname?.startsWith("/adminpanel") && !window.location.pathname?.includes("/login");
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -78,7 +75,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
       {/* Floating ADMIN PANEL button when in admin panel */}
       {isInAdminPanel && (
         <div className="fixed top-3 right-4 sm:right-6 pointer-events-auto">
-          <Link
+          <a
             href="/adminpanel"
             className="px-4 py-2 text-xs font-semibold rounded-full transition-all hover:opacity-80"
             style={{
@@ -88,7 +85,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
             }}
           >
             АДМИН ПАНЕЛЬ
-          </Link>
+          </a>
         </div>
       )}
 
@@ -110,9 +107,9 @@ export default function Header({ user, isAdmin }: HeaderProps) {
             }}
           >
             {/* Logo */}
-            <Link href="/" className="flex items-center px-3 py-2" style={{ textDecoration: "none" }}>
+            <a href="/" className="flex items-center px-3 py-2" style={{ textDecoration: "none" }}>
               <Logo size="sm" inverted />
-            </Link>
+            </a>
 
             {/* Separator */}
             <span style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
@@ -120,18 +117,16 @@ export default function Header({ user, isAdmin }: HeaderProps) {
             {/* Navigation */}
             <nav className="flex items-center gap-1" style={{ flex: 1, justifyContent: "center" }}>
               {navItems.map((item) => (
-                <Link
+                <a
                   key={item.href}
                   href={item.href}
-                  prefetch={false}
                   className="px-4 py-2 text-sm font-medium rounded-full transition-all"
                   style={{
-                    color: pathname === item.href ? "var(--color-cofounder-blue)" : "rgba(255,255,255,0.72)",
-                    background: pathname === item.href ? "rgba(65,161,207,0.12)" : "transparent",
+                    color: "rgba(255,255,255,0.72)",
                   }}
                 >
                   {item.label}
-                </Link>
+                </a>
               ))}
             </nav>
 
@@ -163,14 +158,14 @@ export default function Header({ user, isAdmin }: HeaderProps) {
                         border: "1px solid rgba(255,255,255,0.1)",
                       }}
                     >
-                      <Link
+                      <a
                         href="/instructions"
                         onClick={() => setMenuOpen(false)}
                         className="flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5 block"
                         style={{ color: "rgba(255,255,255,0.85)" }}
                       >
                         Личный кабинет
-                      </Link>
+                      </a>
                       <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }} />
                       <button
                         onClick={handleLogout}
@@ -183,21 +178,20 @@ export default function Header({ user, isAdmin }: HeaderProps) {
                   )}
                 </div>
               ) : !maintenanceState.maintenance || maintenanceState.accessMode === "guest" ? (
-                <Link
+                <a
                   href="/login"
-                  prefetch={false}
                   className="px-4 py-2 text-sm font-medium rounded-full transition-all"
                   style={{ color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.05)" }}
                 >
                   Войти
-                </Link>
+                </a>
               ) : null}
             </div>
 
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileOpen((v) => !v)}
-              className="hidden md:flex items-center justify-center w-8 h-8 rounded-full transition-colors hover:bg-white/10"
+              className="md:hidden flex items-center justify-center w-8 h-8 rounded-full transition-colors hover:bg-white/10"
               style={{ color: "rgba(255,255,255,0.6)" }}
               aria-label="Toggle menu"
             >
@@ -215,7 +209,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
         >
           <nav className="flex flex-col px-2 py-2 gap-0.5">
             {mobileLinks.map(({ href, label }) => (
-              <Link
+              <a
                 key={href}
                 href={href}
                 onClick={() => setMobileOpen(false)}
@@ -223,7 +217,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
                 style={{ color: "rgba(255,255,255,0.8)" }}
               >
                 {label}
-              </Link>
+              </a>
             ))}
             {user && (
               <button
