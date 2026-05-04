@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getSession } from "@/lib/session";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 function getClientIp(req: NextRequest): string {
   return (
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
@@ -62,9 +65,18 @@ export async function POST(req: NextRequest) {
     session.userName = user.name;
     await session.save();
 
-    return NextResponse.json({ ok: true, user: { id: user.id, name: user.name } });
+    return NextResponse.json({ ok: true, user: { id: user.id, name: user.name } }, {
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      },
+    });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
+    return NextResponse.json({ error: "Ошибка сервера" }, {
+      status: 500,
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      },
+    });
   }
 }

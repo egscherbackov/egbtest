@@ -1,18 +1,32 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
-export async function GET() {
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export async function GET(req: NextRequest) {
   try {
-    const settings = await prisma.siteSettings.findUnique({ where: { id: "1" } });
-    return NextResponse.json(
-      {
-        maintenance: settings?.maintenanceMode ?? false,
-        accessMode: settings?.maintenanceAccessMode ?? "global",
-        text: settings?.maintenanceText ?? "",
+    const settings = await prisma.siteSettings.findUnique({
+      where: { id: "1" },
+    });
+
+    const maintenance = settings?.maintenanceMode ?? false;
+    const accessMode = settings?.maintenanceAccessMode ?? "global";
+
+    return NextResponse.json({
+      maintenance,
+      accessMode,
+      text: settings?.maintenanceText ?? "Совсем скоро",
+    }, {
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
       },
-      { headers: { "Cache-Control": "no-store" } }
-    );
+    });
   } catch {
-    return NextResponse.json({ maintenance: false, accessMode: "global", text: "" });
+    return NextResponse.json({ maintenance: false, accessMode: "global", text: "" }, {
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      },
+    });
   }
 }

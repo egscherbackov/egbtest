@@ -3,6 +3,9 @@ import { prisma } from "@/lib/db";
 import { getSession } from "@/lib/session";
 import { generateLoginCode } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 function getClientIp(req: NextRequest): string {
   return (
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
@@ -18,9 +21,18 @@ export async function GET(
   const { token } = await params;
   const invite = await prisma.inviteLink.findUnique({ where: { token } });
   if (!invite || !invite.isActive || invite.usedAt) {
-    return NextResponse.json({ valid: false }, { status: 404 });
+    return NextResponse.json({ valid: false }, {
+      status: 404,
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      },
+    });
   }
-  return NextResponse.json({ valid: true });
+  return NextResponse.json({ valid: true }, {
+    headers: {
+      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    },
+  });
 }
 
 export async function POST(
@@ -33,7 +45,12 @@ export async function POST(
   if (!invite || !invite.isActive || invite.usedAt) {
     return NextResponse.json(
       { error: "Ссылка недействительна или уже использована" },
-      { status: 400 }
+      {
+        status: 400,
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        },
+      }
     );
   }
 
@@ -41,7 +58,12 @@ export async function POST(
   if (!name || !phoneOrTelegram) {
     return NextResponse.json(
       { error: "Имя и контакт обязательны" },
-      { status: 400 }
+      {
+        status: 400,
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        },
+      }
     );
   }
 
@@ -86,5 +108,9 @@ export async function POST(
   session.userName = user.name;
   await session.save();
 
-  return NextResponse.json({ ok: true, user: { id: user.id, name: user.name, loginCode: user.loginCode } });
+  return NextResponse.json({ ok: true, user: { id: user.id, name: user.name, loginCode: user.loginCode } }, {
+    headers: {
+      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    },
+  });
 }

@@ -3,27 +3,13 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "motion/react";
 import Logo from "@/components/Logo";
-import PillNav, { type PillNavItem } from "@/components/ui/PillNav";
-import { LogOut, ChevronDown } from "lucide-react";
+import { LogOut, ChevronDown, Menu, X } from "lucide-react";
 
 interface MaintenanceState {
   maintenance: boolean;
   accessMode: "global" | "authorized" | "guest";
 }
-
-const dropdownVariants = {
-  hidden:  { opacity: 0, scale: 0.95, y: -6 },
-  visible: { opacity: 1, scale: 1,    y:  0, transition: { type: "spring" as const, stiffness: 320, damping: 22 } },
-  exit:    { opacity: 0, scale: 0.95, y: -6, transition: { duration: 0.14 } },
-};
-
-const mobileVariants = {
-  hidden:  { opacity: 0, height: 0 },
-  visible: { opacity: 1, height: "auto", transition: { duration: 0.15, ease: "easeOut" as const } },
-  exit:    { opacity: 0, height: 0,      transition: { duration: 0.12, ease: "easeIn"  as const } },
-};
 
 interface HeaderProps {
   user?: { id: string; name: string } | null;
@@ -60,7 +46,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
       }
     }
     fetchMaintenance();
-    const interval = setInterval(fetchMaintenance, 5000);
+    const interval = setInterval(fetchMaintenance, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -71,31 +57,20 @@ export default function Header({ user, isAdmin }: HeaderProps) {
     window.location.href = "/";
   }
 
-  const navItems: PillNavItem[] = [
-    { label: "Услуги",   href: "/uslugi" },
-    { label: "Отзывы",   href: "/otzyvy" },
-    { label: "О нас",    href: "/o-nas" },
+  const navItems = [
+    { href: "/uslugi", label: "Услуги" },
+    { href: "/otzyvy", label: "Отзывы" },
+    { href: "/o-nas", label: "О нас" },
   ];
 
   const avatar = user
     ? <span style={{ width: 18, height: 18, borderRadius: "50%", background: "var(--color-cofounder-blue)", color: "white", fontSize: 10, fontWeight: 700, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0, lineHeight: 1 }}>{user.name.charAt(0).toUpperCase()}</span>
     : null;
 
-  const rightItems: PillNavItem[] = user ? [
-    {
-      label: user.name.split(" ")[0] || user.name,
-      prefix: avatar,
-      suffix: <ChevronDown size={10} style={{ marginLeft: 1 }} />,
-      onClick: () => setMenuOpen((v) => !v),
-    },
-  ] : !maintenanceState.maintenance || maintenanceState.accessMode === "guest" ? [
-    { label: "Войти", href: "/login" },
-  ] : [];
-
   const mobileLinks = [
-    { href: "/uslugi",     label: "Услуги" },
-    { href: "/otzyvy",      label: "Отзывы" },
-    { href: "/o-nas",        label: "О нас" },
+    { href: "/uslugi", label: "Услуги" },
+    { href: "/otzyvy", label: "Отзывы" },
+    { href: "/o-nas", label: "О нас" },
   ];
 
   return (
@@ -105,7 +80,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
         <div className="fixed top-3 right-4 sm:right-6 pointer-events-auto">
           <Link
             href="/adminpanel"
-            className="px-4 py-2 text-xs font-semibold rounded-full transition-all hover:scale-105"
+            className="px-4 py-2 text-xs font-semibold rounded-full transition-all hover:opacity-80"
             style={{
               background: "rgba(65,161,207,0.15)",
               border: "1px solid rgba(65,161,207,0.3)",
@@ -119,89 +94,149 @@ export default function Header({ user, isAdmin }: HeaderProps) {
 
       {/* Floating pill row */}
       <div className="flex justify-center pt-3 px-4 sm:px-6">
-        {/* Wrapper: auto-width on desktop, full-width on mobile */}
-        <div ref={dropdownRef} className="relative pointer-events-auto w-full md:w-auto">
-          <PillNav
-            logoNode={<Logo size="sm" inverted />}
-            logoHref="/"
-            items={navItems}
-            rightItems={rightItems}
-            onHamburgerClick={() => setMobileOpen((v) => !v)}
-          />
+        <div className="relative pointer-events-auto w-full md:w-auto">
+          <div
+            className="flex items-center"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              minWidth: "clamp(400px, 52vw, 720px)",
+              height: "46px",
+              background: "rgba(10, 14, 24, 0.48)",
+              border: "1px solid rgba(255,255,255,0.13)",
+              borderRadius: "9999px",
+              padding: "4px",
+              backdropFilter: "blur(18px)",
+            }}
+          >
+            {/* Logo */}
+            <Link href="/" className="flex items-center px-3 py-2" style={{ textDecoration: "none" }}>
+              <Logo size="sm" inverted />
+            </Link>
 
-          {/* User dropdown — anchored to right of the pill */}
-          {user && (
-            <AnimatePresence>
-              {menuOpen && (
-                <motion.div
-                  key="user-dropdown"
-                  variants={dropdownVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  className="absolute right-0 w-44 rounded-xl overflow-hidden origin-top-right"
-                  style={{ top: "calc(100% + 8px)", background: "#0e1622", boxShadow: "0 8px 32px rgba(0,0,0,0.45)", border: "1px solid rgba(255,255,255,0.1)" }}
+            {/* Separator */}
+            <span style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
+
+            {/* Navigation */}
+            <nav className="flex items-center gap-1" style={{ flex: 1, justifyContent: "center" }}>
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  prefetch={false}
+                  className="px-4 py-2 text-sm font-medium rounded-full transition-all"
+                  style={{
+                    color: pathname === item.href ? "var(--color-cofounder-blue)" : "rgba(255,255,255,0.72)",
+                    background: pathname === item.href ? "rgba(65,161,207,0.12)" : "transparent",
+                  }}
                 >
-                  <Link
-                    href="/instructions"
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5"
-                    style={{ color: "rgba(255,255,255,0.85)" }}
-                  >
-                    Личный кабинет
-                  </Link>
-                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }} />
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Separator */}
+            <span style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
+
+            {/* Right slot */}
+            <div className="flex items-center" style={{ width: "80px", justifyContent: "center" }}>
+              {user ? (
+                <div ref={dropdownRef} className="relative">
                   <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5 text-left"
-                    style={{ color: "rgba(255,255,255,0.45)" }}
+                    onClick={() => setMenuOpen((v) => !v)}
+                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-full transition-all"
+                    style={{ color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.05)" }}
                   >
-                    <LogOut size={14} /> Выйти
+                    {avatar}
+                    {user.name.split(" ")[0] || user.name}
+                    <ChevronDown size={10} style={{ marginLeft: 1 }} />
                   </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          )}
+
+                  {/* User dropdown */}
+                  {menuOpen && (
+                    <div
+                      className="absolute right-0 w-44 rounded-xl overflow-hidden origin-top-right"
+                      style={{
+                        top: "calc(100% + 8px)",
+                        background: "#0e1622",
+                        boxShadow: "0 8px 32px rgba(0,0,0,0.45)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                      }}
+                    >
+                      <Link
+                        href="/instructions"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5 block"
+                        style={{ color: "rgba(255,255,255,0.85)" }}
+                      >
+                        Личный кабинет
+                      </Link>
+                      <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }} />
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5 text-left"
+                        style={{ color: "rgba(255,255,255,0.45)" }}
+                      >
+                        <LogOut size={14} /> Выйти
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : !maintenanceState.maintenance || maintenanceState.accessMode === "guest" ? (
+                <Link
+                  href="/login"
+                  prefetch={false}
+                  className="px-4 py-2 text-sm font-medium rounded-full transition-all"
+                  style={{ color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.05)" }}
+                >
+                  Войти
+                </Link>
+              ) : null}
+            </div>
+
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setMobileOpen((v) => !v)}
+              className="hidden md:flex items-center justify-center w-8 h-8 rounded-full transition-colors hover:bg-white/10"
+              style={{ color: "rgba(255,255,255,0.6)" }}
+              aria-label="Toggle menu"
+            >
+              <Menu size={18} />
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            key="mobile-menu"
-            variants={mobileVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="pointer-events-auto overflow-hidden mx-4 mt-2 rounded-2xl"
-            style={{ background: "rgba(10,16,28,0.95)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}
-          >
-            <nav className="flex flex-col px-2 py-2 gap-0.5">
-              {mobileLinks.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block px-3 py-2.5 rounded-xl text-sm font-medium transition-colors hover:bg-white/8"
-                  style={{ color: "rgba(255,255,255,0.8)" }}
-                >
-                  {label}
-                </Link>
-              ))}
-              {user && (
-                <button
-                  onClick={handleLogout}
-                  className="px-3 py-2.5 rounded-xl text-sm font-medium transition-colors hover:bg-white/8 text-left"
-                  style={{ color: "rgba(255,255,255,0.4)" }}
-                >
-                  Выйти
-                </button>
-              )}
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {mobileOpen && (
+        <div
+          className="pointer-events-auto overflow-hidden mx-4 mt-2 rounded-2xl"
+          style={{ background: "rgba(10,16,28,0.95)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(16px)" }}
+        >
+          <nav className="flex flex-col px-2 py-2 gap-0.5">
+            {mobileLinks.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setMobileOpen(false)}
+                className="block px-3 py-2.5 rounded-xl text-sm font-medium transition-colors hover:bg-white/8"
+                style={{ color: "rgba(255,255,255,0.8)" }}
+              >
+                {label}
+              </Link>
+            ))}
+            {user && (
+              <button
+                onClick={handleLogout}
+                className="px-3 py-2.5 rounded-xl text-sm font-medium transition-colors hover:bg-white/8 text-left"
+                style={{ color: "rgba(255,255,255,0.4)" }}
+              >
+                Выйти
+              </button>
+            )}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

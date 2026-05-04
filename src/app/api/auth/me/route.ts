@@ -1,8 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
 import { prisma } from "@/lib/db";
 
-export async function GET() {
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export async function GET(req: NextRequest) {
   const session = await getSession();
   if (session.userId) {
     const dbUser = await prisma.user.findUnique({
@@ -13,6 +16,11 @@ export async function GET() {
       session.userId = undefined;
       session.userName = undefined;
       await session.save();
+      return NextResponse.json({ user: null, banned: true }, {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        },
+      });
       return NextResponse.json({ user: null, banned: true });
     }
     return NextResponse.json({

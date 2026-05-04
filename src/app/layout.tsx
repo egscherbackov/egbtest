@@ -3,7 +3,6 @@ import { Nunito_Sans, Geist } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { cn } from "@/lib/utils";
-import LoadingScreen from "@/components/LoadingScreen";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -44,7 +43,6 @@ export default function RootLayout({
     <html lang="ru" className={cn("font-sans", geist.variable)}>
       <head />
       <body className={nunitoSans.className}>
-        <LoadingScreen />
         {children}
         <Toaster
           position="top-right"
