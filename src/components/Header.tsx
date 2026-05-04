@@ -109,7 +109,19 @@ export default function Header({ user, isAdmin }: HeaderProps) {
             }}
           >
             {/* Logo */}
-            <a href="/" className="flex items-center px-3 py-2" style={{ textDecoration: "none" }}>
+            <a
+              href="/"
+              className="flex items-center px-3 py-2 rounded-full transition-all duration-200"
+              style={{ textDecoration: "none" }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                e.currentTarget.style.transform = "scale(1.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.transform = "scale(1)";
+              }}
+            >
               <Logo size="sm" inverted />
             </a>
 
