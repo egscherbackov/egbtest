@@ -176,7 +176,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
                   {/* User dropdown */}
                   {menuOpen && (
                     <div
-                      className="absolute right-0 w-44 rounded-xl overflow-hidden origin-top-right z-50"
+                      className="absolute left-1/2 -translate-x-1/2 w-44 rounded-xl overflow-hidden origin-top z-50"
                       style={{
                         top: "calc(100% + 8px)",
                         background: "#0e1622",
