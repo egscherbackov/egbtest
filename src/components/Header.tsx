@@ -113,8 +113,47 @@ export default function Header({ user, isAdmin }: HeaderProps) {
       {/* Floating pill row */}
       <div className="flex justify-center pt-3 px-4 sm:px-6">
         <div className="relative pointer-events-auto w-full md:w-auto">
+          {/* Mobile layout - separate pills */}
+          <div className="md:hidden flex items-center justify-between w-full gap-4">
+            {/* Hamburger pill on left */}
+            <button
+              onClick={() => setMobileOpen((v) => !v)}
+              className="flex items-center justify-center w-12 h-12 rounded-full transition-colors"
+              style={{
+                color: "rgba(255,255,255,0.6)",
+                background: "rgba(10, 14, 24, 0.48)",
+                border: "1px solid rgba(255,255,255,0.13)",
+                backdropFilter: "blur(18px)",
+              }}
+              aria-label="Toggle menu"
+            >
+              <Menu size={22} />
+            </button>
+
+            {/* Logo pill centered */}
+            <a
+              href="/"
+              className="flex items-center justify-center px-5 py-3 rounded-full transition-all duration-200"
+              style={{
+                textDecoration: "none",
+                background: "rgba(10, 14, 24, 0.48)",
+                border: "1px solid rgba(255,255,255,0.13)",
+                backdropFilter: "blur(18px)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(10, 14, 24, 0.48)";
+              }}
+            >
+              <Logo size="sm" inverted />
+            </a>
+          </div>
+
+          {/* Desktop layout - single pill */}
           <div
-            className="flex items-center"
+            className="hidden md:flex items-center"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -127,20 +166,6 @@ export default function Header({ user, isAdmin }: HeaderProps) {
               backdropFilter: "blur(18px)",
             }}
           >
-            {/* Mobile menu button - separate pill on left */}
-            <button
-              onClick={() => setMobileOpen((v) => !v)}
-              className="md:hidden flex items-center justify-center w-10 h-10 rounded-full transition-colors"
-              style={{
-                color: "rgba(255,255,255,0.6)",
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)"
-              }}
-              aria-label="Toggle menu"
-            >
-              <Menu size={20} />
-            </button>
-
             {/* Logo */}
             <a
               href="/"
@@ -157,10 +182,10 @@ export default function Header({ user, isAdmin }: HeaderProps) {
             </a>
 
             {/* Separator */}
-            <span className="hidden md:block" style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
+            <span style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
 
-            {/* Navigation - only on desktop */}
-            <nav className="hidden md:flex items-center gap-1" style={{ flex: 1, justifyContent: "center" }}>
+            {/* Navigation */}
+            <nav className="flex items-center gap-1" style={{ flex: 1, justifyContent: "center" }}>
               {navItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
@@ -190,10 +215,10 @@ export default function Header({ user, isAdmin }: HeaderProps) {
             </nav>
 
             {/* Separator */}
-            <span className="hidden md:block" style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
+            <span style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
 
-            {/* Right slot - only show user/login on desktop */}
-            <div className="hidden md:flex items-center" style={{ justifyContent: "center" }}>
+            {/* Right slot */}
+            <div className="flex items-center" style={{ justifyContent: "center" }}>
               {user ? (
                 <div ref={dropdownRef} className="relative">
                   <button
