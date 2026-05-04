@@ -115,11 +115,9 @@ export default function Header({ user, isAdmin }: HeaderProps) {
               style={{ textDecoration: "none" }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                e.currentTarget.style.transform = "scale(1.05)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "transparent";
-                e.currentTarget.style.transform = "scale(1)";
               }}
             >
               <Logo size="sm" inverted />
@@ -140,18 +138,15 @@ export default function Header({ user, isAdmin }: HeaderProps) {
                     style={{
                       color: isActive ? "var(--color-cofounder-blue)" : "rgba(255,255,255,0.72)",
                       background: isActive ? "rgba(65,161,207,0.12)" : "transparent",
-                      transform: isActive ? "scale(1.05)" : "scale(1)",
                     }}
                     onMouseEnter={(e) => {
                       if (!isActive) {
                         e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                        e.currentTarget.style.transform = "scale(1.05)";
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!isActive) {
                         e.currentTarget.style.background = "transparent";
-                        e.currentTarget.style.transform = "scale(1)";
                       }
                     }}
                   >
@@ -215,11 +210,9 @@ export default function Header({ user, isAdmin }: HeaderProps) {
                   style={{ color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.05)" }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = "rgba(255,255,255,0.12)";
-                    e.currentTarget.style.transform = "scale(1.05)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-                    e.currentTarget.style.transform = "scale(1)";
                   }}
                 >
                   Войти
