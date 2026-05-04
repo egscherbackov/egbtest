@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/session";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Spotlight } from "@/components/ui/spotlight-new";
 
 export default async function UslugiPage() {
   const session = await getSession();
@@ -12,8 +13,9 @@ export default async function UslugiPage() {
   return (
     <>
       <Header user={user} isAdmin={isAdmin} />
-      <main className="min-h-screen pt-16" style={{ background: "#000000" }}>
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center">
+      <main className="min-h-screen pt-16 relative overflow-hidden" style={{ background: "#000000" }}>
+        <Spotlight />
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center relative z-10">
           <h1 style={{ color: "white", fontSize: "32px", marginBottom: "20px" }}>Услуги</h1>
           <img
             src="/uploads/dancing-rat-fixed.gif"
