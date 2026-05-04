@@ -25,6 +25,24 @@ export default function Header({ user, isAdmin }: HeaderProps) {
 
   const isInAdminPanel = pathname?.startsWith("/adminpanel") && !pathname?.includes("/login");
 
+  // Disable body scroll when sidebar is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+    };
+  }, [mobileOpen]);
+
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -109,6 +127,20 @@ export default function Header({ user, isAdmin }: HeaderProps) {
               backdropFilter: "blur(18px)",
             }}
           >
+            {/* Mobile menu button - separate pill on left */}
+            <button
+              onClick={() => setMobileOpen((v) => !v)}
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-full transition-colors"
+              style={{
+                color: "rgba(255,255,255,0.6)",
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.1)"
+              }}
+              aria-label="Toggle menu"
+            >
+              <Menu size={20} />
+            </button>
+
             {/* Logo */}
             <a
               href="/"
@@ -125,10 +157,10 @@ export default function Header({ user, isAdmin }: HeaderProps) {
             </a>
 
             {/* Separator */}
-            <span style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
+            <span className="hidden md:block" style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
 
-            {/* Navigation */}
-            <nav className="flex items-center gap-1" style={{ flex: 1, justifyContent: "center" }}>
+            {/* Navigation - only on desktop */}
+            <nav className="hidden md:flex items-center gap-1" style={{ flex: 1, justifyContent: "center" }}>
               {navItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
@@ -158,83 +190,67 @@ export default function Header({ user, isAdmin }: HeaderProps) {
             </nav>
 
             {/* Separator */}
-            <span style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
+            <span className="hidden md:block" style={{ width: "1px", height: "18px", background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
 
             {/* Right slot - only show user/login on desktop */}
-            <div className="flex items-center gap-2" style={{ justifyContent: "center" }}>
-              <div className="hidden md:flex items-center">
-                {user ? (
-                  <div ref={dropdownRef} className="relative">
-                    <button
-                      onClick={() => setMenuOpen((v) => !v)}
-                      className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-full transition-all whitespace-nowrap"
-                      style={{ color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.05)" }}
-                    >
-                      {avatar}
-                      <span className="max-w-24 truncate">{user.name.split(" ")[0] || user.name}</span>
-                      <ChevronDown size={10} style={{ marginLeft: 1 }} />
-                    </button>
-
-                    {/* User dropdown */}
-                    {menuOpen && (
-                      <div
-                        className="absolute left-1/2 -translate-x-1/2 w-44 rounded-xl overflow-hidden origin-top z-50"
-                        style={{
-                          top: "calc(100% + 8px)",
-                          background: "#0e1622",
-                          boxShadow: "0 8px 32px rgba(0,0,0,0.45)",
-                          border: "1px solid rgba(255,255,255,0.1)",
-                        }}
-                      >
-                        <a
-                          href="/instructions"
-                          onClick={() => setMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5 block"
-                          style={{ color: "rgba(255,255,255,0.85)" }}
-                        >
-                          Личный кабинет
-                        </a>
-                        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }} />
-                        <button
-                          onClick={handleLogout}
-                          className="w-full flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5 text-left"
-                          style={{ color: "rgba(255,255,255,0.45)" }}
-                        >
-                          <LogOut size={14} /> Выйти
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ) : !maintenanceState.maintenance || maintenanceState.accessMode === "guest" ? (
-                  <a
-                    href="/login"
-                    className="px-4 py-2 text-sm font-medium rounded-full transition-all duration-200"
+            <div className="hidden md:flex items-center" style={{ justifyContent: "center" }}>
+              {user ? (
+                <div ref={dropdownRef} className="relative">
+                  <button
+                    onClick={() => setMenuOpen((v) => !v)}
+                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-full transition-all whitespace-nowrap"
                     style={{ color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.05)" }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(255,255,255,0.12)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-                    }}
                   >
-                    Войти
-                  </a>
-                ) : null}
-              </div>
+                    {avatar}
+                    <span className="max-w-24 truncate">{user.name.split(" ")[0] || user.name}</span>
+                    <ChevronDown size={10} style={{ marginLeft: 1 }} />
+                  </button>
 
-              {/* Mobile menu button - separate pill */}
-              <button
-                onClick={() => setMobileOpen((v) => !v)}
-                className="md:hidden flex items-center justify-center w-10 h-10 rounded-full transition-colors"
-                style={{ 
-                  color: "rgba(255,255,255,0.6)", 
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.1)"
-                }}
-                aria-label="Toggle menu"
-              >
-                <Menu size={20} />
-              </button>
+                  {/* User dropdown */}
+                  {menuOpen && (
+                    <div
+                      className="absolute left-1/2 -translate-x-1/2 w-44 rounded-xl overflow-hidden origin-top z-50"
+                      style={{
+                        top: "calc(100% + 8px)",
+                        background: "#0e1622",
+                        boxShadow: "0 8px 32px rgba(0,0,0,0.45)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                      }}
+                    >
+                      <a
+                        href="/instructions"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5 block"
+                        style={{ color: "rgba(255,255,255,0.85)" }}
+                      >
+                        Личный кабинет
+                      </a>
+                      <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }} />
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5 text-left"
+                        style={{ color: "rgba(255,255,255,0.45)" }}
+                      >
+                        <LogOut size={14} /> Выйти
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : !maintenanceState.maintenance || maintenanceState.accessMode === "guest" ? (
+                <a
+                  href="/login"
+                  className="px-4 py-2 text-sm font-medium rounded-full transition-all duration-200"
+                  style={{ color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.05)" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+                  }}
+                >
+                  Войти
+                </a>
+              ) : null}
             </div>
           </div>
         </div>
